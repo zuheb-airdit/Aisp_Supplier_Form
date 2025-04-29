@@ -1,0 +1,113 @@
+<mvc:View
+  controllerName="com.aispsuppform.aispsupplierform.controller.InstructionView"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns="sap.m"
+  xmlns:f="sap.ui.layout.form"
+  displayBlock="true"
+  height="100%"
+>
+   <Page
+        id="idInstructionsInformation"
+        title="Instructions and Information"
+        titleAlignment="Center"
+        class="sapUiContentPadding instructionsPage"
+    >
+        <content>
+            <f:SimpleForm
+                editable="false"
+                layout="ResponsiveGridLayout"
+                labelSpanL="12"
+                labelSpanM="12"
+                labelSpanS="12"
+                emptySpanL="0"
+                emptySpanM="0"
+                emptySpanS="0"
+                columnsL="1"
+                columnsM="1"
+                class="sapUiTinyMargin"
+            >
+                <f:content>
+                    <!-- <core:Title text="Vendor Registration Guidelines" level="H3" /> -->
+                    <Label text="1. Registration Requirement" class="instructionLabel" />
+                    <Text
+                        text="Any potential vendor interested in providing services or goods (the 'Potential Vendor') to AGPP Pratham and Thinkgas (the 'Company') must go through a registration and approval process."
+                        class="instructionText"
+                    />
+                    <Label text="2. Purpose of the Form" class="instructionLabel" />
+                    <Text
+                        text="The Registration and Prequalification Application Form (this 'Form') facilitates the registration and prequalification of the Company's potential vendors to ensure that only potential vendors that meet the Company's requirements (including but not limited to appropriate experience, a proven track record, and necessary annual turnover) will be invited for bidding. This Form is a part of Prequalification Document and the Potential Vendor is expected to carefully examine all instructions, templates, and terms and conditions, and to provide the Company with all information or documentation required for the purpose of registration and prequalification, so that the Company can properly assess the Potential Vendor's application in light of the Company's requirements. Please note that the Potential Vendor will not receive any confirmation or will not be contacted immediately after it has submitted its registration application."
+                        class="instructionText"
+                    />
+                    <Label text="3. Prequalification and Contracts" class="instructionLabel" />
+                    <Text
+                        text="No purchase order will be issued to, or no contract will be entered into with, a potential vendor that is not pre-registered with the Company. The successful registration of a potential vendor does not guarantee that the Company will do business with that potential vendor. Any successful registration will be subject to the successful completion of the qualification and approval process."
+                        class="instructionText"
+                    />
+                    <Label text="4. No Binding Obligations" class="instructionLabel" />
+                    <Text
+                        text="In any case, the registration process initiated by the Potential Vendor, the successful completion of the Potential Vendor's registration or the pre-qualification of the Potential Vendor does not intend to create, and does not create any binding obligations on the Company or any of its affiliates for the benefit of the Potential Vendor or the benefit of any third party, and shall not be construed as a guarantee or assurance that the Company will do business with the Potential Vendor."
+                        class="instructionText"
+                    />
+                    <Label text="5. Vendor Representations and Warranties" class="instructionLabel" />
+                    <Text
+                        text="By initiating the registration process with the Company, the Potential Vendor represents and warrants that:"
+                        class="instructionText"
+                    />
+                    <Text
+                        text="(a). it (including any of its affiliates) conducts its businesses in compliance with all applicable laws, regulations, and policies it is subject to, including but not limited to any applicable export and import control laws, anti-corruption laws, employment laws, regulations, and standards in relation to labor practices and human rights, health and safety laws, environmental laws, and anti-money laundering laws, and has instituted and maintained policies and procedures designed to promote and achieve compliance with such laws;"
+                        class="instructionSubText"
+                    />
+                    <Text
+                        text="(b). no litigation, arbitration, or administrative proceedings or investigations of, or before, any court, arbitral body, or agency which, if adversely determined, are reasonably likely to have a material adverse effect have (to the best of its knowledge and belief (having made due and careful enquiry)) been started or threatened against it or any of its affiliates; and"
+                        class="instructionSubText"
+                    />
+                    <Text
+                        text="(c). it (including any of its affiliates) is not subject to, and (to the best of its knowledge and belief (having made due and careful enquiry)) there are no circumstances have occurred which could lead to, any corporate action, legal proceedings, or other procedure or step seeking a judgment of insolvency or bankruptcy or any other relief under any bankruptcy or insolvency law or other similar law affecting creditors' rights."
+                        class="instructionSubText"
+                    />
+                    <Label text="6. Form Completion" class="instructionLabel" />
+                    <Text
+                        text="This Form must be completely filled in or approved by the authorized representative of the Potential Vendor."
+                        class="instructionText"
+                    />
+                    <Label text="7. Accuracy of Information" class="instructionLabel" />
+                    <Text
+                        text="All information provided by the Potential Vendor in this Form must match with the information and supporting documents uploaded by the Potential Vendor. Any such information must be true and accurate in all material respects as at the date of the information provided or uploaded by the Potential Vendor."
+                        class="instructionText"
+                    />
+                    <Label text="8. Updates to Information" class="instructionLabel" />
+                    <Text
+                        text="If (before the Company decides in its own absolute discretion to issue a purchase order or to enter into a contract with the Potential Vendor) there is any change in the information provided or uploaded by the Potential Vendor, such change must be immediately communicated in writing by the Potential Vendor to the Company."
+                        class="instructionText"
+                    />
+                    <Label text="9. Notification" class="instructionLabel" />
+                    <Text
+                        text="The Potential Vendor will be notified via email through the Vendor's representative mentioned in this form, whether the application is successful or rejected."
+                        class="instructionText"
+                    />
+                    <Label text="10. Continuous Assessment" class="instructionLabel" />
+                    <Text
+                        text="The Potential Vendor will be subject to continuous assessment from all relevant aspects including, for example, based on the evolving term rates and quality of its supplies."
+                        class="instructionText"
+                    />
+                </f:content>
+            </f:SimpleForm>
+        </content>
+        <footer>
+            <OverflowToolbar class="sapUiMediumMarginTop">
+                <ToolbarSpacer />
+                <Button
+                    icon="sap-icon://open-command-field"
+                    id="idNextButton"
+                    text="Next"
+                    type="Emphasized"
+                    press="onGoToRegistrationPage"
+                    enabled="false"
+                    visible="{agpFormData>/nextBtn}"
+                    class="sapUiMediumMarginEnd"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

@@ -1,0 +1,446 @@
+{
+    "GENERAL_INFORMATION": {
+        "VENDOR_INFORMATION": {
+            "VENDOR_NAME": {
+                "label": "Vendor Name",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "VENDOR_WEBSITE": {
+                "label": "Vendor Website",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "VENDOR_E_MAIL": {
+                "label": "Vendor Email",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "COMPANY_CODE": {
+                "label": "Company Code",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        },
+        "VENDOR_ADDRESS": [
+            {
+                "type": "Primary Vendor Address",
+                "STREET_NO": {
+                    "label": "Street Number",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "STREET_01": {
+                    "label": "Street 01",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "STREET_02": {
+                    "label": "Street 02",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "STREET_03": {
+                    "label": "Street 03",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "STREET_04": {
+                    "label": "Street 04",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "COUNTRY": {
+                    "label": "Country",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "REGION": {
+                    "label": "Region",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "CITY": {
+                    "label": "City",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "POSTAL_CODE": {
+                    "label": "Postal Code",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "E_MAIL": {
+                    "label": "Email",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "CONTACT": {
+                    "label": "Contact",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                }
+            }
+        ],
+        "PRIMARY_CONTACT": {
+            "FIRST_NAME": {
+                "label": "First Name",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "LAST_NAME": {
+                "label": "Last Name",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "DESIGNATION": {
+                "label": "Designation",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "EMAIL_ADDRESS": {
+                "label": "Email Address",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "COUNTRY": {
+                "label": "Country",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "REGION": {
+                "label": "Region",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "CITY": {
+                "label": "City",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "POSTAL_CODE": {
+                "label": "Postal Code",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "CONTACT_NO": {
+                "label": "Contact No",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "MOBILE_NO": {
+                "label": "Mobile No",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        }
+    },
+    "FINANCIAL_INFORMATION": {
+        "PRIMARY_BANK_DETAILS": [
+            {
+                "type": "Primary Bank Details",
+                "BANK_NAME": {
+                    "label": "Bank Name",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "BRANCH_NAME": {
+                    "label": "Branch Name",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "SWIFT_CODE": {
+                    "label": "SWIFT Code",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "BANK_COUNTRY": {
+                    "label": "Bank Country",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "BENEFICIARY_NAME": {
+                    "label": "Beneficiary Name",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "ACCOUNT_NUMBER": {
+                    "label": "Account Number",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                },
+                "IBAN_NUMBER": {
+                    "label": "IBAN Number",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "ROUTING_CODE": {
+                    "label": "Routing Code",
+                    "mandatory": false,
+                    "visible": true,
+                    "value": ""
+                },
+                "BANK_CURRENCY": {
+                    "label": "Bank Currency",
+                    "mandatory": true,
+                    "visible": true,
+                    "value": ""
+                }
+            }
+        ],
+        "TAX_VAT_GST": {
+            "GST_NO": {
+                "label": "GST Number",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "TAX_VAT_GST": {
+                "label": "Tax/VAT/GST",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            }
+        }
+    },
+    "OPERATIONAL_INFORMATION": {
+        "PRODUCT_SERVICE_DESCRIPTION": {
+            "PRODUCT_NAME": {
+                "label": "Product Name",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "PRODUCT_DESCRIPTION": {
+                "label": "Product Description",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "PRODUCT_TYPE": {
+                "label": "Product Type",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            },
+            "PRODUCT_CATEGORY": {
+                "label": "Product Category",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        },
+        "OPERATIONAL_CAPACITY": {
+            "PRODUCTION_CAPACITY": {
+                "label": "Production Capacity",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "PRODUCTION_LOCATION": {
+                "label": "Production Location",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "MINIMUM_ORDER_SIZE": {
+                "label": "Minimum Order Size",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "MAXIMUM_ORDER_SIZE": {
+                "label": "Maximum Order Size",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            }
+        }
+    },
+    "DISCLOSURES": {
+        "CONFLICT_OF_INTEREST": {
+            "CONFLICT_OF_INTEREST": {
+                "label": "Conflict of Interest",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        },
+        "LEGAL_CASE_DISCLOSURE": {
+            "LEGAL_CASE_DISCLOSURE": {
+                "label": "Legal Case Disclosure",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        },
+        "ANTI_CORRUPTION_REGULATION": {
+            "ANTI_CORRUPTION": {
+                "label": "Anti-Corruption",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        },
+        "EXPORT_CONTROL": {
+            "INDIAN_EXPORT_CONTROL": {
+                "label": "Indian Export Control",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        }
+    },
+    "QUALITY_CERTIFICATES": {
+        "STANDARD_CERTIFICATIONS": {
+            "ISO_9001_2015_DONE_BY": {
+                "label": "ISO 9001:2015 Done By",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "ISO_14001_DONE_BY": {
+                "label": "ISO 14001 Done By",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "ISO_45001_DONE_BY": {
+                "label": "ISO 45001 Done By",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "ISO_13485_DONE_BY": {
+                "label": "ISO 13485 Done By",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "UNE_EN_ISO_13485_DONE_BY": {
+                "label": "UNE EN ISO 13485 Done By",
+                "mandatory": false,
+                "visible_File": true,
+                "value": ""
+            },
+            "AEO_2012_2130_DONE_BY": {
+                "label": "AEO 2012-2130 Done By",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "ISO_14001_2015_DONE_BY": {
+                "label": "ISO 14001:2015 Done By",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            },
+            "OHSAS_18001_2007_DONE_BY": {
+                "label": "OHSAS 18001:2007 Done By",
+                "mandatory": false,
+                "visible": true,
+                "value": ""
+            }
+        }
+    },
+    "ATTACHMENTS": {
+        "COMPANY_PROFILE": {
+            "COMPANY_PROFILE": {
+                "label": "Company Profile",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        },
+        "COMPANY_REGISTRATION_CERTIFICATE": {
+            "COMPANY_REGISTRATION_CERTIFICATE": {
+                "label": "Company Registration Certificate",
+                "mandatory": true,
+                "visible": true,
+                "value": ""
+            }
+        },
+        "BANK_ACCOUNT_LETTER_ISSUED_BY_BANK": {
+            "label": "Bank Account Letter Issued by Bank",
+            "mandatory": true,
+            "visible": true,
+            "value": ""
+        },
+        "TAX_REGISTRATION_CERTIFICATE": {
+            "label": "Tax Registration Certificate",
+            "mandatory": true,
+            "visible": true,
+            "value": ""
+        },
+        "ISO_CERTIFICATION": {
+            "label": "ISO Certification",
+            "mandatory": false,
+            "visible": true,
+            "value": ""
+        },
+        "OTHER_CERTIFICATES": {
+            "label": "Other Certificates",
+            "mandatory": false,
+            "visible": true,
+            "value": ""
+        }
+    },
+    "SUBMISSION_INFORMATION": {
+        "COMPLETED_BY": {
+            "label": "Completed By",
+            "mandatory": true,
+            "visible": true,
+            "value": ""
+        },
+        "DESIGNATION": {
+            "label": "Designation",
+            "mandatory": true,
+            "visible": true,
+            "value": ""
+        },
+        "SUBMISSION_DATE": {
+            "label": "Submission Date",
+            "mandatory": true,
+            "visible": true,
+            "value": ""
+        },
+        "DECLARATION_CONFIRMATION": {
+            "label": "Declaration Confirmation",
+            "mandatory": true,
+            "visible": true,
+            "value": ""
+        }
+    }
+}

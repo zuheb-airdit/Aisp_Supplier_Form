@@ -1,0 +1,201 @@
+/* Enter your custom styles here */
+.instructionsPage {
+    background-color: #f7f7f7;
+}
+.instructionLabel {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    color: #333;
+}
+.instructionText {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #444;
+    margin-bottom: 1rem;
+}
+.instructionSubText {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #444;
+    margin-left: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.sapUiForm .sapUiFormTitle {
+    color: #1a73e8;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+.sapUiFormContainer {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Style the entire form container */
+.customSupplierForm {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+}
+
+/* Style the form title */
+.customSupplierForm .sapUiFormTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 8px;
+}
+
+/* Style the labels */
+.customSupplierForm .sapMLabel {
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+/* Style the required field indicator (red asterisk) */
+.customSupplierForm .sapMLabelRequired::after {
+    color: #dc3545;
+    font-size: 1rem;
+}
+
+/* Style the input fields */
+.customSupplierForm .sapMInputBaseInner {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease-in-out;
+}
+
+/* Input field focus state */
+.customSupplierForm .sapMInputBaseInner:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Style the form layout for better spacing */
+.customSupplierForm .sapUiFormCLContent > div {
+    margin-bottom: 15px;
+}
+
+/* Ensure columns have proper spacing */
+.customSupplierForm .sapUiFormElement {
+    padding-right: 15px;
+}
+
+/* Adjust input field width for better alignment */
+.customSupplierForm .sapMInput {
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Hover effect for inputs */
+.customSupplierForm .sapMInputBaseInner:hover {
+    border-color: #adb5bd;
+}
+
+/* Style for disabled or non-editable fields (if any) */
+.customSupplierForm .sapMInputBaseInner:disabled {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    color: #6c757d;
+}
+
+.submissionSection {
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.sectionTitle {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.submissionContent {
+    width: 100%;
+}
+
+.submissionLabels {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem; /* Reduced space */
+}
+
+.submissionLabels .sapMLabel,
+.submissionLabels .sapMInputBase {
+    flex: 1;
+    min-width: 200px;
+    margin-right: 0.5rem; /* Reduced space between label and input */
+}
+
+.submissionLabels .sapMInputBase {
+    margin-bottom: 0.25rem; /* Reduced space */
+}
+
+.submissionCheckbox {
+    align-items: flex-start;
+    margin-bottom: 0.5rem; /* Reduced space */
+}
+
+.submissionCheckbox .sapMLabel {
+    margin-right: 0.25rem; /* Reduced space */
+}
+
+.submissionCheckbox .sapMCb {
+    margin-right: 0.25rem; /* Reduced space */
+}
+
+.submissionInput {
+    width: 100%;
+    margin-left: 0; /* Remove extra space */
+}
+
+.mandatoryLabel {
+    font-size: 0.9rem;
+    color: #333;
+    display: inline-block; /* Ensure label and input are closer */
+}
+
+.mandatoryLabel .sapMLabelRequired::before {
+    content: "*";
+    color: red;
+    margin-right: 0.1rem; /* Reduced space for asterisk */
+}
+
+.declarationText {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+    margin-left: 0.25rem; /* Reduced space */
+    flex: 1;
+}
+
+.boldText {
+    font-weight: bold; /* Make declaration text bold */
+}
+
+.reviewButton {
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+}
+
+.reviewButton:hover {
+    background-color: #0056b3;
+}

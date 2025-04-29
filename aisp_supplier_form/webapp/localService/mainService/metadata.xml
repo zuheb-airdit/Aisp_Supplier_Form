@@ -1,0 +1,2022 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Validation.V1.xml" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Alias="Validation" Namespace="Org.OData.Validation.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="registrationManageService" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="MasterApprovalHierarchy" EntityType="registrationManageService.MasterApprovalHierarchy"/>
+                <EntitySet Name="MasterAttachmentTypes" EntityType="registrationManageService.MasterAttachmentTypes"/>
+                <EntitySet Name="CompanyCode" EntityType="registrationManageService.CompanyCode"/>
+                <EntitySet Name="Telecode" EntityType="registrationManageService.Telecode"/>
+                <EntitySet Name="Postalcode" EntityType="registrationManageService.Postalcode"/>
+                <EntitySet Name="Country" EntityType="registrationManageService.Country"/>
+                <EntitySet Name="Region" EntityType="registrationManageService.Region"/>
+                <EntitySet Name="IbanCountry" EntityType="registrationManageService.IbanCountry"/>
+                <EntitySet Name="VMAttachments" EntityType="registrationManageService.VMAttachments"/>
+                <EntitySet Name="RequestEvents" EntityType="registrationManageService.RequestEvents"/>
+                <EntitySet Name="Status" EntityType="registrationManageService.Status"/>
+                <EntitySet Name="ClientInfo" EntityType="registrationManageService.ClientInfo"/>
+                <EntitySet Name="RequestInfo" EntityType="registrationManageService.RequestInfo"/>
+                <EntitySet Name="RequestInfoByRegId" EntityType="registrationManageService.RequestInfoByRegId"/>
+                <EntitySet Name="RequestsStuckInApprovalForOverMonths" EntityType="registrationManageService.RequestsStuckInApprovalForOverMonths"/>
+                <EntitySet Name="RequestInfoWithoutFilter" EntityType="registrationManageService.RequestInfoWithoutFilter"/>
+                <EntitySet Name="RequestReport" EntityType="registrationManageService.RequestReport"/>
+                <EntitySet Name="Reqstatus" EntityType="registrationManageService.Reqstatus"/>
+                <EntitySet Name="RegDiscInfo" EntityType="registrationManageService.RegDiscInfo"/>
+                <EntitySet Name="RequestType" EntityType="registrationManageService.RequestType"/>
+                <EntitySet Name="VMUsers" EntityType="registrationManageService.VMUsers"/>
+                <EntitySet Name="VMUserCompanyCode" EntityType="registrationManageService.VMUserCompanyCode"/>
+                <EntitySet Name="RegDiscRelatives" EntityType="registrationManageService.RegDiscRelatives"/>
+                <EntitySet Name="REGDiscQaCertif" EntityType="registrationManageService.REGDiscQaCertif"/>
+                <EntitySet Name="REGAttachFields" EntityType="registrationManageService.REGAttachFields"/>
+                <EntitySet Name="REGAttachments" EntityType="registrationManageService.REGAttachments"/>
+                <EntitySet Name="REG_TAXCertificate" EntityType="registrationManageService.REG_TAXCertificate"/>
+                <EntitySet Name="REGCMS" EntityType="registrationManageService.REGCMS"/>
+                <EntitySet Name="REGAddress" EntityType="registrationManageService.REGAddress"/>
+                <EntitySet Name="REGContacts" EntityType="registrationManageService.REGContacts"/>
+                <EntitySet Name="REGBanks" EntityType="registrationManageService.REGBanks"/>
+                <EntitySet Name="RegFinancial" EntityType="registrationManageService.RegFinancial"/>
+                <EntitySet Name="RegOwners" EntityType="registrationManageService.RegOwners"/>
+                <EntitySet Name="RegProdServ" EntityType="registrationManageService.RegProdServ"/>
+                <EntitySet Name="RegCapacity" EntityType="registrationManageService.RegCapacity"/>
+                <EntitySet Name="RegCustomers" EntityType="registrationManageService.RegCustomers"/>
+                <EntitySet Name="RegOEM" EntityType="registrationManageService.RegOEM"/>
+                <EntitySet Name="REGEventsLog" EntityType="registrationManageService.REGEventsLog"/>
+                <EntitySet Name="RegSupplierLog" EntityType="registrationManageService.RegSupplierLog"/>
+                <EntitySet Name="RegVendorCategory" EntityType="registrationManageService.RegVendorCategory"/>
+                <EntitySet Name="Attachment_CompanyProfile" EntityType="registrationManageService.Attachment_CompanyProfile"/>
+                <EntitySet Name="MonthlyRequestCounts" EntityType="registrationManageService.MonthlyRequestCounts"/>
+                <EntitySet Name="VendorStatusCounts" EntityType="registrationManageService.VendorStatusCounts"/>
+                <EntitySet Name="FormData" EntityType="registrationManageService.FormData"/>
+                <EntitySet Name="RequestCounts" EntityType="registrationManageService.RequestCounts"/>
+                <EntitySet Name="VendorAccountGroupAttachments" EntityType="registrationManageService.VendorAccountGroupAttachments"/>
+                <EntitySet Name="TimeRangeFilter" EntityType="registrationManageService.TimeRangeFilter"/>
+                <EntitySet Name="RequestsStuckInApprovalForOverMonth" EntityType="registrationManageService.RequestsStuckInApprovalForOverMonth"/>
+                <EntitySet Name="RequestSummary" EntityType="registrationManageService.RequestSummary"/>
+                <EntitySet Name="REGApprovalNo" EntityType="registrationManageService.REGApprovalNo"/>
+                <EntitySet Name="UserAttributes" EntityType="registrationManageService.UserAttributes"/>
+                <FunctionImport Name="GetDraftData" ReturnType="Collection(Edm.String)" m:HttpMethod="GET">
+                    <Parameter Name="input" Type="Edm.String" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="GetSecurityPin" ReturnType="Collection(Edm.String)" m:HttpMethod="GET">
+                    <Parameter Name="vendorName" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="vendorEmail" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="requesterId" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="userId" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="userRole" Type="Edm.String" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="CheckSecurityPin" ReturnType="registrationManageService.securityPinResponse" m:HttpMethod="GET">
+                    <Parameter Name="vendorEmail" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="securityPin" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="userId" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="userRole" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="self" Type="Edm.Boolean" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="PostRegData" ReturnType="Edm.String" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="REQUEST_NO" Type="Edm.Int32" Mode="In" Nullable="true"/>
+                    <Parameter Name="REJECTION_COMMENT" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="REASSIGNED_USER_ID" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="stepNo" Type="Edm.Int32" Mode="In" Nullable="true"/>
+                    <Parameter Name="reqHeader" Type="Collection(registrationManageService.RequestInfo)" Nullable="false" Mode="In"/>
+                    <Parameter Name="addressData" Type="Collection(registrationManageService.REGAddress)" Nullable="false" Mode="In"/>
+                    <Parameter Name="bankData" Type="Collection(registrationManageService.REGBanks)" Nullable="false" Mode="In"/>
+                    <Parameter Name="contactsData" Type="Collection(registrationManageService.REGContacts)" Nullable="false" Mode="In"/>
+                    <Parameter Name="Attachments" Type="Collection(registrationManageService.REGAttachments)" Nullable="false" Mode="In"/>
+                    <Parameter Name="Operational_Prod_Desc" Type="Collection(registrationManageService.RegProdServ)" Nullable="false" Mode="In"/>
+                    <Parameter Name="Operational_Capacity" Type="Collection(registrationManageService.RegCapacity)" Nullable="false" Mode="In"/>
+                    <Parameter Name="Disclosure_Fields" Type="Collection(registrationManageService.RegDiscInfo)" Nullable="false" Mode="In"/>
+                    <Parameter Name="Quality_Certificates" Type="Collection(registrationManageService.REGDiscQaCertif)" Nullable="false" Mode="In"/>
+                </FunctionImport>
+                <FunctionImport Name="downloadPDF" ReturnType="Edm.String" m:HttpMethod="POST">
+                    <Parameter Name="input" Type="registrationManageService.FormData" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="RegDataEdit" ReturnType="Collection(Edm.String)" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="stepNo" Type="Edm.Int32" Mode="In" Nullable="true"/>
+                    <Parameter Name="reqHeader" Type="Collection(registrationManageService.RequestInfo)" Nullable="false" Mode="In"/>
+                    <Parameter Name="addressData" Type="Collection(registrationManageService.REGAddress)" Nullable="false" Mode="In"/>
+                    <Parameter Name="contactsData" Type="Collection(registrationManageService.REGContacts)" Nullable="false" Mode="In"/>
+                    <Parameter Name="updatedFields" Type="Collection(Edm.String)" Nullable="false" Mode="In"/>
+                    <Parameter Name="editLog" Type="Collection(registrationManageService.RegSupplierLog)" Nullable="false" Mode="In"/>
+                    <Parameter Name="userDetails" Type="registrationManageService.User_Details" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="RegDataApproval" ReturnType="Collection(Edm.String)" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="inputData" Type="Collection(registrationManageService.RequestInfo)" Nullable="false" Mode="In"/>
+                    <Parameter Name="addressData" Type="Collection(registrationManageService.REGAddress)" Nullable="false" Mode="In"/>
+                    <Parameter Name="contactsData" Type="Collection(registrationManageService.REGContacts)" Nullable="false" Mode="In"/>
+                    <Parameter Name="bankData" Type="Collection(registrationManageService.REGBanks)" Nullable="false" Mode="In"/>
+                    <Parameter Name="eventsData" Type="Collection(registrationManageService.REGEventsLog)" Nullable="false" Mode="In"/>
+                    <Parameter Name="userDetails" Type="registrationManageService.User_Details" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="RegDataSync" ReturnType="Collection(Edm.String)" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="bankData" Type="Collection(registrationManageService.REGBanks)" Nullable="false" Mode="In"/>
+                    <Parameter Name="userDetails" Type="registrationManageService.User_Details" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="MessengerService" ReturnType="Collection(Edm.String)" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="messengerData" Type="registrationManageService.MessengerData" Mode="In" Nullable="true"/>
+                    <Parameter Name="inputData" Type="Collection(registrationManageService.RequestInfo)" Nullable="false" Mode="In"/>
+                    <Parameter Name="eventsData" Type="Collection(registrationManageService.REGEventsLog)" Nullable="false" Mode="In"/>
+                    <Parameter Name="userDetails" Type="registrationManageService.User_Details" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="ManageCMS" ReturnType="Collection(Edm.String)" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="attachmentId" Type="registrationManageService.AttachmentID" Mode="In" Nullable="true"/>
+                    <Parameter Name="inputData" Type="Collection(registrationManageService.REGCMS)" Nullable="false" Mode="In"/>
+                    <Parameter Name="userDetails" Type="registrationManageService.User_Details" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="RegSR" ReturnType="Collection(Edm.String)" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="reqHeader" Type="Collection(registrationManageService.RequestInfo)" Nullable="false" Mode="In"/>
+                    <Parameter Name="addressData" Type="Collection(registrationManageService.REGAddress)" Nullable="false" Mode="In"/>
+                    <Parameter Name="eventsData" Type="Collection(registrationManageService.REGEventsLog)" Nullable="false" Mode="In"/>
+                    <Parameter Name="securityPin" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="userDetails" Type="registrationManageService.User_Details" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <FunctionImport Name="REGVendorEdit" ReturnType="Collection(Edm.String)" m:HttpMethod="POST">
+                    <Parameter Name="action" Type="Edm.String" Mode="In" Nullable="true"/>
+                    <Parameter Name="reqHeader" Type="Collection(registrationManageService.RequestInfo)" Nullable="false" Mode="In"/>
+                    <Parameter Name="eventsData" Type="Collection(registrationManageService.REGEventsLog)" Nullable="false" Mode="In"/>
+                    <Parameter Name="userDetails" Type="registrationManageService.User_Details" Mode="In" Nullable="true"/>
+                </FunctionImport>
+                <AssociationSet Name="MasterApprovalHierarchy_TO_COMPANY_CODE" Association="registrationManageService.MasterApprovalHierarchy_TO_COMPANY_CODE">
+                    <End Role="MasterApprovalHierarchy" EntitySet="MasterApprovalHierarchy"/>
+                    <End Role="CompanyCode" EntitySet="CompanyCode"/>
+                </AssociationSet>
+                <AssociationSet Name="Telecode_TO_COUNTRY" Association="registrationManageService.Telecode_TO_COUNTRY">
+                    <End Role="Telecode" EntitySet="Telecode"/>
+                    <End Role="Country" EntitySet="Country"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_STATUS" Association="registrationManageService.RequestInfo_TO_STATUS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="Status" EntitySet="Status"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_ADDRESS" Association="registrationManageService.RequestInfo_TO_ADDRESS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="REGAddress" EntitySet="REGAddress"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_CONTACTS" Association="registrationManageService.RequestInfo_TO_CONTACTS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="REGContacts" EntitySet="REGContacts"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_BANKS" Association="registrationManageService.RequestInfo_TO_BANKS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="REGBanks" EntitySet="REGBanks"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_FINANCE" Association="registrationManageService.RequestInfo_TO_FINANCE">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="RegFinancial" EntitySet="RegFinancial"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_ATTACHMENTS" Association="registrationManageService.RequestInfo_TO_ATTACHMENTS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="REGAttachments" EntitySet="REGAttachments"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_TAXCertificate" Association="registrationManageService.RequestInfo_TO_TAXCertificate">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="REG_TAXCertificate" EntitySet="REG_TAXCertificate"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_PRODUCT_SERVICES" Association="registrationManageService.RequestInfo_TO_PRODUCT_SERVICES">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="RegProdServ" EntitySet="RegProdServ"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_CAPACITY" Association="registrationManageService.RequestInfo_TO_CAPACITY">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="RegCapacity" EntitySet="RegCapacity"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_CUSTOMERS" Association="registrationManageService.RequestInfo_TO_CUSTOMERS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="RegCustomers" EntitySet="RegCustomers"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_DISCLOSURE_FIELDS" Association="registrationManageService.RequestInfo_TO_DISCLOSURE_FIELDS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="RegDiscInfo" EntitySet="RegDiscInfo"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_RELATIVES" Association="registrationManageService.RequestInfo_TO_RELATIVES">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="RegDiscRelatives" EntitySet="RegDiscRelatives"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_QA_CERTIFICATES" Association="registrationManageService.RequestInfo_TO_QA_CERTIFICATES">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="REGDiscQaCertif" EntitySet="REGDiscQaCertif"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_ATTACH_FIELDS" Association="registrationManageService.RequestInfo_TO_ATTACH_FIELDS">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="REGAttachFields" EntitySet="REGAttachFields"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_REQUEST_TYPE" Association="registrationManageService.RequestInfo_TO_REQUEST_TYPE">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="RequestType" EntitySet="RequestType"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_COMPANY_CODE" Association="registrationManageService.RequestInfo_TO_COMPANY_CODE">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="CompanyCode" EntitySet="CompanyCode"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfo_TO_HIERARCHY" Association="registrationManageService.RequestInfo_TO_HIERARCHY">
+                    <End Role="RequestInfo" EntitySet="RequestInfo"/>
+                    <End Role="MasterApprovalHierarchy" EntitySet="MasterApprovalHierarchy"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_STATUS" Association="registrationManageService.RequestInfoByRegId_TO_STATUS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="Status" EntitySet="Status"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_ADDRESS" Association="registrationManageService.RequestInfoByRegId_TO_ADDRESS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="REGAddress" EntitySet="REGAddress"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_CONTACTS" Association="registrationManageService.RequestInfoByRegId_TO_CONTACTS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="REGContacts" EntitySet="REGContacts"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_BANKS" Association="registrationManageService.RequestInfoByRegId_TO_BANKS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="REGBanks" EntitySet="REGBanks"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_FINANCE" Association="registrationManageService.RequestInfoByRegId_TO_FINANCE">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="RegFinancial" EntitySet="RegFinancial"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_ATTACHMENTS" Association="registrationManageService.RequestInfoByRegId_TO_ATTACHMENTS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="REGAttachments" EntitySet="REGAttachments"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_TAXCertificate" Association="registrationManageService.RequestInfoByRegId_TO_TAXCertificate">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="REG_TAXCertificate" EntitySet="REG_TAXCertificate"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_PRODUCT_SERVICES" Association="registrationManageService.RequestInfoByRegId_TO_PRODUCT_SERVICES">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="RegProdServ" EntitySet="RegProdServ"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_CAPACITY" Association="registrationManageService.RequestInfoByRegId_TO_CAPACITY">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="RegCapacity" EntitySet="RegCapacity"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_CUSTOMERS" Association="registrationManageService.RequestInfoByRegId_TO_CUSTOMERS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="RegCustomers" EntitySet="RegCustomers"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_DISCLOSURE_FIELDS" Association="registrationManageService.RequestInfoByRegId_TO_DISCLOSURE_FIELDS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="RegDiscInfo" EntitySet="RegDiscInfo"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_RELATIVES" Association="registrationManageService.RequestInfoByRegId_TO_RELATIVES">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="RegDiscRelatives" EntitySet="RegDiscRelatives"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_QA_CERTIFICATES" Association="registrationManageService.RequestInfoByRegId_TO_QA_CERTIFICATES">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="REGDiscQaCertif" EntitySet="REGDiscQaCertif"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_ATTACH_FIELDS" Association="registrationManageService.RequestInfoByRegId_TO_ATTACH_FIELDS">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="REGAttachFields" EntitySet="REGAttachFields"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_REQUEST_TYPE" Association="registrationManageService.RequestInfoByRegId_TO_REQUEST_TYPE">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="RequestType" EntitySet="RequestType"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_COMPANY_CODE" Association="registrationManageService.RequestInfoByRegId_TO_COMPANY_CODE">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="CompanyCode" EntitySet="CompanyCode"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoByRegId_TO_HIERARCHY" Association="registrationManageService.RequestInfoByRegId_TO_HIERARCHY">
+                    <End Role="RequestInfoByRegId" EntitySet="RequestInfoByRegId"/>
+                    <End Role="MasterApprovalHierarchy" EntitySet="MasterApprovalHierarchy"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_STATUS" Association="registrationManageService.RequestInfoWithoutFilter_TO_STATUS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="Status" EntitySet="Status"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_ADDRESS" Association="registrationManageService.RequestInfoWithoutFilter_TO_ADDRESS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="REGAddress" EntitySet="REGAddress"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_CONTACTS" Association="registrationManageService.RequestInfoWithoutFilter_TO_CONTACTS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="REGContacts" EntitySet="REGContacts"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_BANKS" Association="registrationManageService.RequestInfoWithoutFilter_TO_BANKS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="REGBanks" EntitySet="REGBanks"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_FINANCE" Association="registrationManageService.RequestInfoWithoutFilter_TO_FINANCE">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="RegFinancial" EntitySet="RegFinancial"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_ATTACHMENTS" Association="registrationManageService.RequestInfoWithoutFilter_TO_ATTACHMENTS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="REGAttachments" EntitySet="REGAttachments"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_TAXCertificate" Association="registrationManageService.RequestInfoWithoutFilter_TO_TAXCertificate">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="REG_TAXCertificate" EntitySet="REG_TAXCertificate"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_PRODUCT_SERVICES" Association="registrationManageService.RequestInfoWithoutFilter_TO_PRODUCT_SERVICES">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="RegProdServ" EntitySet="RegProdServ"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_CAPACITY" Association="registrationManageService.RequestInfoWithoutFilter_TO_CAPACITY">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="RegCapacity" EntitySet="RegCapacity"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_CUSTOMERS" Association="registrationManageService.RequestInfoWithoutFilter_TO_CUSTOMERS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="RegCustomers" EntitySet="RegCustomers"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_DISCLOSURE_FIELDS" Association="registrationManageService.RequestInfoWithoutFilter_TO_DISCLOSURE_FIELDS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="RegDiscInfo" EntitySet="RegDiscInfo"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_RELATIVES" Association="registrationManageService.RequestInfoWithoutFilter_TO_RELATIVES">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="RegDiscRelatives" EntitySet="RegDiscRelatives"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_QA_CERTIFICATES" Association="registrationManageService.RequestInfoWithoutFilter_TO_QA_CERTIFICATES">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="REGDiscQaCertif" EntitySet="REGDiscQaCertif"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_ATTACH_FIELDS" Association="registrationManageService.RequestInfoWithoutFilter_TO_ATTACH_FIELDS">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="REGAttachFields" EntitySet="REGAttachFields"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_REQUEST_TYPE" Association="registrationManageService.RequestInfoWithoutFilter_TO_REQUEST_TYPE">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="RequestType" EntitySet="RequestType"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_COMPANY_CODE" Association="registrationManageService.RequestInfoWithoutFilter_TO_COMPANY_CODE">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="CompanyCode" EntitySet="CompanyCode"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestInfoWithoutFilter_TO_HIERARCHY" Association="registrationManageService.RequestInfoWithoutFilter_TO_HIERARCHY">
+                    <End Role="RequestInfoWithoutFilter" EntitySet="RequestInfoWithoutFilter"/>
+                    <End Role="MasterApprovalHierarchy" EntitySet="MasterApprovalHierarchy"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_STATUS" Association="registrationManageService.RequestReport_TO_STATUS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="Status" EntitySet="Status"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_ADDRESS" Association="registrationManageService.RequestReport_TO_ADDRESS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="REGAddress" EntitySet="REGAddress"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_CONTACTS" Association="registrationManageService.RequestReport_TO_CONTACTS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="REGContacts" EntitySet="REGContacts"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_BANKS" Association="registrationManageService.RequestReport_TO_BANKS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="REGBanks" EntitySet="REGBanks"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_FINANCE" Association="registrationManageService.RequestReport_TO_FINANCE">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="RegFinancial" EntitySet="RegFinancial"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_ATTACHMENTS" Association="registrationManageService.RequestReport_TO_ATTACHMENTS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="REGAttachments" EntitySet="REGAttachments"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_TAXCertificate" Association="registrationManageService.RequestReport_TO_TAXCertificate">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="REG_TAXCertificate" EntitySet="REG_TAXCertificate"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_PRODUCT_SERVICES" Association="registrationManageService.RequestReport_TO_PRODUCT_SERVICES">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="RegProdServ" EntitySet="RegProdServ"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_CAPACITY" Association="registrationManageService.RequestReport_TO_CAPACITY">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="RegCapacity" EntitySet="RegCapacity"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_CUSTOMERS" Association="registrationManageService.RequestReport_TO_CUSTOMERS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="RegCustomers" EntitySet="RegCustomers"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_DISCLOSURE_FIELDS" Association="registrationManageService.RequestReport_TO_DISCLOSURE_FIELDS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="RegDiscInfo" EntitySet="RegDiscInfo"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_RELATIVES" Association="registrationManageService.RequestReport_TO_RELATIVES">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="RegDiscRelatives" EntitySet="RegDiscRelatives"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_QA_CERTIFICATES" Association="registrationManageService.RequestReport_TO_QA_CERTIFICATES">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="REGDiscQaCertif" EntitySet="REGDiscQaCertif"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_ATTACH_FIELDS" Association="registrationManageService.RequestReport_TO_ATTACH_FIELDS">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="REGAttachFields" EntitySet="REGAttachFields"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_REQUEST_TYPE" Association="registrationManageService.RequestReport_TO_REQUEST_TYPE">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="RequestType" EntitySet="RequestType"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_COMPANY_CODE" Association="registrationManageService.RequestReport_TO_COMPANY_CODE">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="CompanyCode" EntitySet="CompanyCode"/>
+                </AssociationSet>
+                <AssociationSet Name="RequestReport_TO_HIERARCHY" Association="registrationManageService.RequestReport_TO_HIERARCHY">
+                    <End Role="RequestReport" EntitySet="RequestReport"/>
+                    <End Role="MasterApprovalHierarchy" EntitySet="MasterApprovalHierarchy"/>
+                </AssociationSet>
+                <AssociationSet Name="VMUsers_TO_COMPANY_CODE" Association="registrationManageService.VMUsers_TO_COMPANY_CODE">
+                    <End Role="VMUsers" EntitySet="VMUsers"/>
+                    <End Role="CompanyCode" EntitySet="CompanyCode"/>
+                </AssociationSet>
+                <AssociationSet Name="VMUsers_TO_USER_ENTITIES" Association="registrationManageService.VMUsers_TO_USER_ENTITIES">
+                    <End Role="VMUsers" EntitySet="VMUsers"/>
+                    <End Role="VMUserCompanyCode" EntitySet="VMUserCompanyCode"/>
+                </AssociationSet>
+                <AssociationSet Name="REGAddress_TO_COUNTRY" Association="registrationManageService.REGAddress_TO_COUNTRY">
+                    <End Role="REGAddress" EntitySet="REGAddress"/>
+                    <End Role="Country" EntitySet="Country"/>
+                </AssociationSet>
+                <AssociationSet Name="REGAddress_TO_REGION" Association="registrationManageService.REGAddress_TO_REGION">
+                    <End Role="REGAddress" EntitySet="REGAddress"/>
+                    <End Role="Region" EntitySet="Region"/>
+                </AssociationSet>
+                <AssociationSet Name="REGContacts_TO_COUNTRY" Association="registrationManageService.REGContacts_TO_COUNTRY">
+                    <End Role="REGContacts" EntitySet="REGContacts"/>
+                    <End Role="Country" EntitySet="Country"/>
+                </AssociationSet>
+                <AssociationSet Name="REGContacts_TO_REGION" Association="registrationManageService.REGContacts_TO_REGION">
+                    <End Role="REGContacts" EntitySet="REGContacts"/>
+                    <End Role="Region" EntitySet="Region"/>
+                </AssociationSet>
+                <AssociationSet Name="REGBanks_TO_COUNTRY" Association="registrationManageService.REGBanks_TO_COUNTRY">
+                    <End Role="REGBanks" EntitySet="REGBanks"/>
+                    <End Role="Country" EntitySet="Country"/>
+                </AssociationSet>
+                <AssociationSet Name="RegOwners_TO_COUNTRY" Association="registrationManageService.RegOwners_TO_COUNTRY">
+                    <End Role="RegOwners" EntitySet="RegOwners"/>
+                    <End Role="Country" EntitySet="Country"/>
+                </AssociationSet>
+                <AssociationSet Name="RegCapacity_TO_COUNTRY" Association="registrationManageService.RegCapacity_TO_COUNTRY">
+                    <End Role="RegCapacity" EntitySet="RegCapacity"/>
+                    <End Role="Country" EntitySet="Country"/>
+                </AssociationSet>
+            </EntityContainer>
+            <EntityType Name="MasterApprovalHierarchy">
+                <Key>
+                    <PropertyRef Name="APPR_TYPE"/>
+                    <PropertyRef Name="COMPANY_CODE"/>
+                    <PropertyRef Name="USER_ID"/>
+                </Key>
+                <Property Name="APPR_TYPE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="20" Nullable="false"/>
+                <Property Name="USER_ID" Type="Edm.String" MaxLength="1000" Nullable="false"/>
+                <Property Name="APPROVER_LEVEL" Type="Edm.Int32"/>
+                <Property Name="USER_ROLE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ACCESS_EDIT" Type="Edm.Boolean"/>
+                <Property Name="ACCESS_APPROVE" Type="Edm.Boolean"/>
+                <Property Name="ACCESS_SENDBACK" Type="Edm.Boolean"/>
+                <Property Name="ACCESS_REJECT" Type="Edm.Boolean"/>
+                <NavigationProperty Name="TO_COMPANY_CODE" Relationship="registrationManageService.MasterApprovalHierarchy_TO_COMPANY_CODE" FromRole="MasterApprovalHierarchy" ToRole="CompanyCode"/>
+            </EntityType>
+            <EntityType Name="MasterAttachmentTypes">
+                <Key>
+                    <PropertyRef Name="CODE"/>
+                </Key>
+                <Property Name="CODE" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SHORT_DESCRIPTION" Type="Edm.String" MaxLength="10"/>
+                <Property Name="TYPE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="GROUP1" Type="Edm.String" MaxLength="10"/>
+                <Property Name="GROUP2" Type="Edm.String" MaxLength="10"/>
+            </EntityType>
+            <EntityType Name="CompanyCode">
+                <Key>
+                    <PropertyRef Name="BUKRS"/>
+                </Key>
+                <Property Name="BUKRS" Type="Edm.String" MaxLength="4" Nullable="false"/>
+                <Property Name="BUTXT" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ORT01" Type="Edm.String" MaxLength="25"/>
+                <Property Name="WAERS" Type="Edm.String" MaxLength="5"/>
+            </EntityType>
+            <EntityType Name="Telecode">
+                <Key>
+                    <PropertyRef Name="LAND1"/>
+                </Key>
+                <Property Name="LAND1" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="TELEFTO" Type="Edm.String" MaxLength="4"/>
+                <NavigationProperty Name="TO_COUNTRY" Relationship="registrationManageService.Telecode_TO_COUNTRY" FromRole="Telecode" ToRole="Country"/>
+            </EntityType>
+            <EntityType Name="Postalcode">
+                <Key>
+                    <PropertyRef Name="LAND1"/>
+                </Key>
+                <Property Name="LAND1" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="REGEX" Type="Edm.String" MaxLength="250"/>
+                <Property Name="REGEX_EXP" Type="Edm.String" MaxLength="250"/>
+            </EntityType>
+            <EntityType Name="Country">
+                <Key>
+                    <PropertyRef Name="LAND1"/>
+                    <PropertyRef Name="LANDX"/>
+                    <PropertyRef Name="NATIO"/>
+                </Key>
+                <Property Name="LAND1" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="LANDX" Type="Edm.String" MaxLength="15" Nullable="false"/>
+                <Property Name="NATIO" Type="Edm.String" MaxLength="25" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Region">
+                <Key>
+                    <PropertyRef Name="LAND1"/>
+                    <PropertyRef Name="BLAND"/>
+                    <PropertyRef Name="BEZEI"/>
+                </Key>
+                <Property Name="LAND1" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="BLAND" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="BEZEI" Type="Edm.String" MaxLength="20" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="IbanCountry">
+                <Key>
+                    <PropertyRef Name="LAND1"/>
+                    <PropertyRef Name="LANDX"/>
+                    <PropertyRef Name="LENGTH"/>
+                </Key>
+                <Property Name="LAND1" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="LANDX" Type="Edm.String" MaxLength="25" Nullable="false"/>
+                <Property Name="LENGTH" Type="Edm.Int32" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="VMAttachments">
+                <Key>
+                    <PropertyRef Name="SR_NO"/>
+                    <PropertyRef Name="ENTITY_CODE"/>
+                    <PropertyRef Name="ATTACH_CODE"/>
+                </Key>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="ENTITY_CODE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="ATTACH_CODE" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="ATTACH_GROUP" Type="Edm.String" MaxLength="30"/>
+                <Property Name="ATTACH_DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="FILE_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="FILE_TYPE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="FILE_MIMETYPE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="FILE_CONTENT" Type="Edm.Binary"/>
+                <Property Name="UPLOADED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ATTACH_TYPE_CODE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ATTACH_TYPE_DESC" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="RequestEvents">
+                <Key>
+                    <PropertyRef Name="CODE"/>
+                </Key>
+                <Property Name="CODE" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TYPE" Type="Edm.String" MaxLength="25"/>
+            </EntityType>
+            <EntityType Name="Status">
+                <Key>
+                    <PropertyRef Name="CODE"/>
+                </Key>
+                <Property Name="CODE" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="ClientInfo">
+                <Key>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="EMAIL_NOTIF_1" Type="Edm.String" MaxLength="100"/>
+                <Property Name="EMAIL_NOTIF_2" Type="Edm.String" MaxLength="100"/>
+                <Property Name="EMAIL_NOTIF_3" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CONTACT_ID_1" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CONTACT_ID_2" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CONTACT_ID_3" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CLIENT_FULL_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CLIENT_SHORT_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CLIENT_COUNTRY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="EMAIL_CC" Type="Edm.String" MaxLength="1000"/>
+            </EntityType>
+            <EntityType Name="RequestInfo">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="CONTACT_PERSON" Type="Edm.String"/>
+                <Property Name="PRIORITY" Type="Edm.String"/>
+                <Property Name="INSTRUCTIONS" Type="Edm.String"/>
+                <Property Name="SAP_VENDOR_CODE" Type="Edm.String" MaxLength="15"/>
+                <Property Name="VM_VENDOR_CODE" Type="Edm.Int64"/>
+                <Property Name="STATUS" Type="Edm.Int32"/>
+                <Property Name="REGISTERED_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="TYPE_OF_INDUSTRY" Type="Edm.String"/>
+                <Property Name="REQUEST_TYPE" Type="Edm.String"/>
+                <Property Name="CREATION_TYPE" Type="Edm.Int32"/>
+                <Property Name="VENDOR_NAME1" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_NAME2" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_REPORT_PROGRSS" Type="Edm.String"/>
+                <Property Name="VENDOR_CODE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="APPROVER_LEVEL" Type="Edm.Int32"/>
+                <Property Name="APPROVER_ROLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NEXT_APPROVER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUESTER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SUPPL_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="SUPPL_TYPE_DESC" Type="Edm.String" MaxLength="50"/>
+                <Property Name="BP_TYPE_CODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BP_TYPE_DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUEST_RESENT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MDG_CR_NO" Type="Edm.String" MaxLength="15"/>
+                <Property Name="LAST_ACTIVE_REQ_NO" Type="Edm.Int64"/>
+                <Property Name="SECONDARY_EMAILS_ID" Type="Edm.String" MaxLength="500"/>
+                <Property Name="WEBSITE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="LEGAL_STRUCTURE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="LEGAL_STRUCTURE_OTHER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ESTAB_YEAR" Type="Edm.String" MaxLength="4"/>
+                <Property Name="CERT_EXP_DATE" Type="Edm.String"/>
+                <Property Name="CERT_OF_INCORPORATION" Type="Edm.String"/>
+                <Property Name="VENDOR_CATEGORY" Type="Edm.String"/>
+                <Property Name="NO_OF_EMP" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ENGG" Type="Edm.Int32"/>
+                <Property Name="NO_OF_QUALITY" Type="Edm.Int32"/>
+                <Property Name="NO_OF_PROD" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ADMIN" Type="Edm.Int32"/>
+                <Property Name="NO_OF_OTHERS" Type="Edm.Int32"/>
+                <Property Name="BUSINESS_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="VAT_REG_NUMBER" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_REG_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="SUPPL_CATEGORY" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="SUPPL_CATEGORY_DESC" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="ACTIVITY_TYPE" Type="Edm.String" MaxLength="30"/>
+                <Property Name="ORDER_SIZE_MIN" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ORDER_SIZE_MAX" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TOTAL_PROD_CAPACITY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="LAST_SAVED_STEP" Type="Edm.Int32"/>
+                <Property Name="COMPLETED_BY_POSITION" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ACK_VALIDATION" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SUBMISSION_DATE" Type="Edm.String"/>
+                <Property Name="DESIGNATION" Type="Edm.String"/>
+                <Property Name="COMPLETED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DUE_DELI_NUM" Type="Edm.String"/>
+                <Property Name="PAN_NO" Type="Edm.String"/>
+                <Property Name="GST_NO" Type="Edm.String"/>
+                <Property Name="LST_NO" Type="Edm.String"/>
+                <Property Name="CST_NO" Type="Edm.String"/>
+                <Property Name="MSME_CATEGORY" Type="Edm.String"/>
+                <Property Name="VENDOR_ACCOUNT_GROUP" Type="Edm.String"/>
+                <Property Name="DUE_DILIGANCE" Type="Edm.Boolean"/>
+                <Property Name="DUE_DILIGANCE_REQ_NO" Type="Edm.String"/>
+                <Property Name="APPROVER" Type="Edm.String"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CURRENT_ASSIGNEE" Type="Edm.String"/>
+                <Property Name="REASSIGNED_ASSIGNEE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REASSIGN_FLAG" Type="Edm.Boolean"/>
+                <Property Name="REASSIGNED_USER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="OT_PARENT_ID" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OT_FOLDER1_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER2_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER3_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER4_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="ICV_SCORE" Type="Edm.Decimal" sap:variable-scale="true"/>
+                <Property Name="ICV_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="ICV_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="NDA_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="REMINDER_COUNT" Type="Edm.Int32"/>
+                <Property Name="BUYER_ASSIGN_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="COMMENT" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="PROCESS_LEVEL" Type="Edm.String" MaxLength="10"/>
+                <NavigationProperty Name="TO_STATUS" Relationship="registrationManageService.RequestInfo_TO_STATUS" FromRole="RequestInfo" ToRole="Status"/>
+                <NavigationProperty Name="TO_ADDRESS" Relationship="registrationManageService.RequestInfo_TO_ADDRESS" FromRole="RequestInfo" ToRole="REGAddress"/>
+                <NavigationProperty Name="TO_CONTACTS" Relationship="registrationManageService.RequestInfo_TO_CONTACTS" FromRole="RequestInfo" ToRole="REGContacts"/>
+                <NavigationProperty Name="TO_BANKS" Relationship="registrationManageService.RequestInfo_TO_BANKS" FromRole="RequestInfo" ToRole="REGBanks"/>
+                <NavigationProperty Name="TO_FINANCE" Relationship="registrationManageService.RequestInfo_TO_FINANCE" FromRole="RequestInfo" ToRole="RegFinancial"/>
+                <NavigationProperty Name="TO_ATTACHMENTS" Relationship="registrationManageService.RequestInfo_TO_ATTACHMENTS" FromRole="RequestInfo" ToRole="REGAttachments"/>
+                <NavigationProperty Name="TO_TAXCertificate" Relationship="registrationManageService.RequestInfo_TO_TAXCertificate" FromRole="RequestInfo" ToRole="REG_TAXCertificate"/>
+                <NavigationProperty Name="TO_PRODUCT_SERVICES" Relationship="registrationManageService.RequestInfo_TO_PRODUCT_SERVICES" FromRole="RequestInfo" ToRole="RegProdServ"/>
+                <NavigationProperty Name="TO_CAPACITY" Relationship="registrationManageService.RequestInfo_TO_CAPACITY" FromRole="RequestInfo" ToRole="RegCapacity"/>
+                <NavigationProperty Name="TO_CUSTOMERS" Relationship="registrationManageService.RequestInfo_TO_CUSTOMERS" FromRole="RequestInfo" ToRole="RegCustomers"/>
+                <NavigationProperty Name="TO_DISCLOSURE_FIELDS" Relationship="registrationManageService.RequestInfo_TO_DISCLOSURE_FIELDS" FromRole="RequestInfo" ToRole="RegDiscInfo"/>
+                <NavigationProperty Name="TO_RELATIVES" Relationship="registrationManageService.RequestInfo_TO_RELATIVES" FromRole="RequestInfo" ToRole="RegDiscRelatives"/>
+                <NavigationProperty Name="TO_QA_CERTIFICATES" Relationship="registrationManageService.RequestInfo_TO_QA_CERTIFICATES" FromRole="RequestInfo" ToRole="REGDiscQaCertif"/>
+                <NavigationProperty Name="TO_ATTACH_FIELDS" Relationship="registrationManageService.RequestInfo_TO_ATTACH_FIELDS" FromRole="RequestInfo" ToRole="REGAttachFields"/>
+                <NavigationProperty Name="TO_REQUEST_TYPE" Relationship="registrationManageService.RequestInfo_TO_REQUEST_TYPE" FromRole="RequestInfo" ToRole="RequestType"/>
+                <NavigationProperty Name="TO_COMPANY_CODE" Relationship="registrationManageService.RequestInfo_TO_COMPANY_CODE" FromRole="RequestInfo" ToRole="CompanyCode"/>
+                <NavigationProperty Name="TO_HIERARCHY" Relationship="registrationManageService.RequestInfo_TO_HIERARCHY" FromRole="RequestInfo" ToRole="MasterApprovalHierarchy"/>
+            </EntityType>
+            <EntityType Name="RequestInfoByRegId">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="CONTACT_PERSON" Type="Edm.String"/>
+                <Property Name="PRIORITY" Type="Edm.String"/>
+                <Property Name="INSTRUCTIONS" Type="Edm.String"/>
+                <Property Name="SAP_VENDOR_CODE" Type="Edm.String" MaxLength="15"/>
+                <Property Name="VM_VENDOR_CODE" Type="Edm.Int64"/>
+                <Property Name="STATUS" Type="Edm.Int32"/>
+                <Property Name="REGISTERED_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="TYPE_OF_INDUSTRY" Type="Edm.String"/>
+                <Property Name="REQUEST_TYPE" Type="Edm.String"/>
+                <Property Name="CREATION_TYPE" Type="Edm.Int32"/>
+                <Property Name="VENDOR_NAME1" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_NAME2" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_REPORT_PROGRSS" Type="Edm.String"/>
+                <Property Name="VENDOR_CODE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="APPROVER_LEVEL" Type="Edm.Int32"/>
+                <Property Name="APPROVER_ROLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NEXT_APPROVER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUESTER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SUPPL_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="SUPPL_TYPE_DESC" Type="Edm.String" MaxLength="50"/>
+                <Property Name="BP_TYPE_CODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BP_TYPE_DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUEST_RESENT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MDG_CR_NO" Type="Edm.String" MaxLength="15"/>
+                <Property Name="LAST_ACTIVE_REQ_NO" Type="Edm.Int64"/>
+                <Property Name="SECONDARY_EMAILS_ID" Type="Edm.String" MaxLength="500"/>
+                <Property Name="WEBSITE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="LEGAL_STRUCTURE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="LEGAL_STRUCTURE_OTHER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ESTAB_YEAR" Type="Edm.String" MaxLength="4"/>
+                <Property Name="CERT_EXP_DATE" Type="Edm.String"/>
+                <Property Name="CERT_OF_INCORPORATION" Type="Edm.String"/>
+                <Property Name="VENDOR_CATEGORY" Type="Edm.String"/>
+                <Property Name="NO_OF_EMP" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ENGG" Type="Edm.Int32"/>
+                <Property Name="NO_OF_QUALITY" Type="Edm.Int32"/>
+                <Property Name="NO_OF_PROD" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ADMIN" Type="Edm.Int32"/>
+                <Property Name="NO_OF_OTHERS" Type="Edm.Int32"/>
+                <Property Name="BUSINESS_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="VAT_REG_NUMBER" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_REG_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="SUPPL_CATEGORY" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="SUPPL_CATEGORY_DESC" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="ACTIVITY_TYPE" Type="Edm.String" MaxLength="30"/>
+                <Property Name="ORDER_SIZE_MIN" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ORDER_SIZE_MAX" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TOTAL_PROD_CAPACITY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="LAST_SAVED_STEP" Type="Edm.Int32"/>
+                <Property Name="COMPLETED_BY_POSITION" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ACK_VALIDATION" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SUBMISSION_DATE" Type="Edm.String"/>
+                <Property Name="DESIGNATION" Type="Edm.String"/>
+                <Property Name="COMPLETED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DUE_DELI_NUM" Type="Edm.String"/>
+                <Property Name="PAN_NO" Type="Edm.String"/>
+                <Property Name="GST_NO" Type="Edm.String"/>
+                <Property Name="LST_NO" Type="Edm.String"/>
+                <Property Name="CST_NO" Type="Edm.String"/>
+                <Property Name="MSME_CATEGORY" Type="Edm.String"/>
+                <Property Name="VENDOR_ACCOUNT_GROUP" Type="Edm.String"/>
+                <Property Name="DUE_DILIGANCE" Type="Edm.Boolean"/>
+                <Property Name="DUE_DILIGANCE_REQ_NO" Type="Edm.String"/>
+                <Property Name="APPROVER" Type="Edm.String"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CURRENT_ASSIGNEE" Type="Edm.String"/>
+                <Property Name="REASSIGNED_ASSIGNEE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REASSIGN_FLAG" Type="Edm.Boolean"/>
+                <Property Name="REASSIGNED_USER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="OT_PARENT_ID" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OT_FOLDER1_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER2_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER3_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER4_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="ICV_SCORE" Type="Edm.Decimal" sap:variable-scale="true"/>
+                <Property Name="ICV_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="ICV_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="NDA_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="REMINDER_COUNT" Type="Edm.Int32"/>
+                <Property Name="BUYER_ASSIGN_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="COMMENT" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="PROCESS_LEVEL" Type="Edm.String" MaxLength="10"/>
+                <NavigationProperty Name="TO_STATUS" Relationship="registrationManageService.RequestInfoByRegId_TO_STATUS" FromRole="RequestInfoByRegId" ToRole="Status"/>
+                <NavigationProperty Name="TO_ADDRESS" Relationship="registrationManageService.RequestInfoByRegId_TO_ADDRESS" FromRole="RequestInfoByRegId" ToRole="REGAddress"/>
+                <NavigationProperty Name="TO_CONTACTS" Relationship="registrationManageService.RequestInfoByRegId_TO_CONTACTS" FromRole="RequestInfoByRegId" ToRole="REGContacts"/>
+                <NavigationProperty Name="TO_BANKS" Relationship="registrationManageService.RequestInfoByRegId_TO_BANKS" FromRole="RequestInfoByRegId" ToRole="REGBanks"/>
+                <NavigationProperty Name="TO_FINANCE" Relationship="registrationManageService.RequestInfoByRegId_TO_FINANCE" FromRole="RequestInfoByRegId" ToRole="RegFinancial"/>
+                <NavigationProperty Name="TO_ATTACHMENTS" Relationship="registrationManageService.RequestInfoByRegId_TO_ATTACHMENTS" FromRole="RequestInfoByRegId" ToRole="REGAttachments"/>
+                <NavigationProperty Name="TO_TAXCertificate" Relationship="registrationManageService.RequestInfoByRegId_TO_TAXCertificate" FromRole="RequestInfoByRegId" ToRole="REG_TAXCertificate"/>
+                <NavigationProperty Name="TO_PRODUCT_SERVICES" Relationship="registrationManageService.RequestInfoByRegId_TO_PRODUCT_SERVICES" FromRole="RequestInfoByRegId" ToRole="RegProdServ"/>
+                <NavigationProperty Name="TO_CAPACITY" Relationship="registrationManageService.RequestInfoByRegId_TO_CAPACITY" FromRole="RequestInfoByRegId" ToRole="RegCapacity"/>
+                <NavigationProperty Name="TO_CUSTOMERS" Relationship="registrationManageService.RequestInfoByRegId_TO_CUSTOMERS" FromRole="RequestInfoByRegId" ToRole="RegCustomers"/>
+                <NavigationProperty Name="TO_DISCLOSURE_FIELDS" Relationship="registrationManageService.RequestInfoByRegId_TO_DISCLOSURE_FIELDS" FromRole="RequestInfoByRegId" ToRole="RegDiscInfo"/>
+                <NavigationProperty Name="TO_RELATIVES" Relationship="registrationManageService.RequestInfoByRegId_TO_RELATIVES" FromRole="RequestInfoByRegId" ToRole="RegDiscRelatives"/>
+                <NavigationProperty Name="TO_QA_CERTIFICATES" Relationship="registrationManageService.RequestInfoByRegId_TO_QA_CERTIFICATES" FromRole="RequestInfoByRegId" ToRole="REGDiscQaCertif"/>
+                <NavigationProperty Name="TO_ATTACH_FIELDS" Relationship="registrationManageService.RequestInfoByRegId_TO_ATTACH_FIELDS" FromRole="RequestInfoByRegId" ToRole="REGAttachFields"/>
+                <NavigationProperty Name="TO_REQUEST_TYPE" Relationship="registrationManageService.RequestInfoByRegId_TO_REQUEST_TYPE" FromRole="RequestInfoByRegId" ToRole="RequestType"/>
+                <NavigationProperty Name="TO_COMPANY_CODE" Relationship="registrationManageService.RequestInfoByRegId_TO_COMPANY_CODE" FromRole="RequestInfoByRegId" ToRole="CompanyCode"/>
+                <NavigationProperty Name="TO_HIERARCHY" Relationship="registrationManageService.RequestInfoByRegId_TO_HIERARCHY" FromRole="RequestInfoByRegId" ToRole="MasterApprovalHierarchy"/>
+            </EntityType>
+            <EntityType Name="RequestsStuckInApprovalForOverMonths">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REGISTERED_ID" Type="Edm.String"/>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset"/>
+                <Property Name="REQUESTER_ID" Type="Edm.String"/>
+                <Property Name="STATUS" Type="Edm.Int32"/>
+                <Property Name="selectedTime" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="RequestInfoWithoutFilter">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="CONTACT_PERSON" Type="Edm.String"/>
+                <Property Name="PRIORITY" Type="Edm.String"/>
+                <Property Name="INSTRUCTIONS" Type="Edm.String"/>
+                <Property Name="SAP_VENDOR_CODE" Type="Edm.String" MaxLength="15"/>
+                <Property Name="VM_VENDOR_CODE" Type="Edm.Int64"/>
+                <Property Name="STATUS" Type="Edm.Int32"/>
+                <Property Name="REGISTERED_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="TYPE_OF_INDUSTRY" Type="Edm.String"/>
+                <Property Name="REQUEST_TYPE" Type="Edm.String"/>
+                <Property Name="CREATION_TYPE" Type="Edm.Int32"/>
+                <Property Name="VENDOR_NAME1" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_NAME2" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_REPORT_PROGRSS" Type="Edm.String"/>
+                <Property Name="VENDOR_CODE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="APPROVER_LEVEL" Type="Edm.Int32"/>
+                <Property Name="APPROVER_ROLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NEXT_APPROVER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUESTER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SUPPL_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="SUPPL_TYPE_DESC" Type="Edm.String" MaxLength="50"/>
+                <Property Name="BP_TYPE_CODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BP_TYPE_DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUEST_RESENT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MDG_CR_NO" Type="Edm.String" MaxLength="15"/>
+                <Property Name="LAST_ACTIVE_REQ_NO" Type="Edm.Int64"/>
+                <Property Name="SECONDARY_EMAILS_ID" Type="Edm.String" MaxLength="500"/>
+                <Property Name="WEBSITE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="LEGAL_STRUCTURE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="LEGAL_STRUCTURE_OTHER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ESTAB_YEAR" Type="Edm.String" MaxLength="4"/>
+                <Property Name="CERT_EXP_DATE" Type="Edm.String"/>
+                <Property Name="CERT_OF_INCORPORATION" Type="Edm.String"/>
+                <Property Name="VENDOR_CATEGORY" Type="Edm.String"/>
+                <Property Name="NO_OF_EMP" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ENGG" Type="Edm.Int32"/>
+                <Property Name="NO_OF_QUALITY" Type="Edm.Int32"/>
+                <Property Name="NO_OF_PROD" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ADMIN" Type="Edm.Int32"/>
+                <Property Name="NO_OF_OTHERS" Type="Edm.Int32"/>
+                <Property Name="BUSINESS_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="VAT_REG_NUMBER" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_REG_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="SUPPL_CATEGORY" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="SUPPL_CATEGORY_DESC" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="ACTIVITY_TYPE" Type="Edm.String" MaxLength="30"/>
+                <Property Name="ORDER_SIZE_MIN" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ORDER_SIZE_MAX" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TOTAL_PROD_CAPACITY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="LAST_SAVED_STEP" Type="Edm.Int32"/>
+                <Property Name="COMPLETED_BY_POSITION" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ACK_VALIDATION" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SUBMISSION_DATE" Type="Edm.String"/>
+                <Property Name="DESIGNATION" Type="Edm.String"/>
+                <Property Name="COMPLETED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DUE_DELI_NUM" Type="Edm.String"/>
+                <Property Name="PAN_NO" Type="Edm.String"/>
+                <Property Name="GST_NO" Type="Edm.String"/>
+                <Property Name="LST_NO" Type="Edm.String"/>
+                <Property Name="CST_NO" Type="Edm.String"/>
+                <Property Name="MSME_CATEGORY" Type="Edm.String"/>
+                <Property Name="VENDOR_ACCOUNT_GROUP" Type="Edm.String"/>
+                <Property Name="DUE_DILIGANCE" Type="Edm.Boolean"/>
+                <Property Name="DUE_DILIGANCE_REQ_NO" Type="Edm.String"/>
+                <Property Name="APPROVER" Type="Edm.String"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CURRENT_ASSIGNEE" Type="Edm.String"/>
+                <Property Name="REASSIGNED_ASSIGNEE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REASSIGN_FLAG" Type="Edm.Boolean"/>
+                <Property Name="REASSIGNED_USER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="OT_PARENT_ID" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OT_FOLDER1_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER2_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER3_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER4_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="ICV_SCORE" Type="Edm.Decimal" sap:variable-scale="true"/>
+                <Property Name="ICV_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="ICV_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="NDA_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="REMINDER_COUNT" Type="Edm.Int32"/>
+                <Property Name="BUYER_ASSIGN_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="COMMENT" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="PROCESS_LEVEL" Type="Edm.String" MaxLength="10"/>
+                <NavigationProperty Name="TO_STATUS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_STATUS" FromRole="RequestInfoWithoutFilter" ToRole="Status"/>
+                <NavigationProperty Name="TO_ADDRESS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_ADDRESS" FromRole="RequestInfoWithoutFilter" ToRole="REGAddress"/>
+                <NavigationProperty Name="TO_CONTACTS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_CONTACTS" FromRole="RequestInfoWithoutFilter" ToRole="REGContacts"/>
+                <NavigationProperty Name="TO_BANKS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_BANKS" FromRole="RequestInfoWithoutFilter" ToRole="REGBanks"/>
+                <NavigationProperty Name="TO_FINANCE" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_FINANCE" FromRole="RequestInfoWithoutFilter" ToRole="RegFinancial"/>
+                <NavigationProperty Name="TO_ATTACHMENTS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_ATTACHMENTS" FromRole="RequestInfoWithoutFilter" ToRole="REGAttachments"/>
+                <NavigationProperty Name="TO_TAXCertificate" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_TAXCertificate" FromRole="RequestInfoWithoutFilter" ToRole="REG_TAXCertificate"/>
+                <NavigationProperty Name="TO_PRODUCT_SERVICES" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_PRODUCT_SERVICES" FromRole="RequestInfoWithoutFilter" ToRole="RegProdServ"/>
+                <NavigationProperty Name="TO_CAPACITY" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_CAPACITY" FromRole="RequestInfoWithoutFilter" ToRole="RegCapacity"/>
+                <NavigationProperty Name="TO_CUSTOMERS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_CUSTOMERS" FromRole="RequestInfoWithoutFilter" ToRole="RegCustomers"/>
+                <NavigationProperty Name="TO_DISCLOSURE_FIELDS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_DISCLOSURE_FIELDS" FromRole="RequestInfoWithoutFilter" ToRole="RegDiscInfo"/>
+                <NavigationProperty Name="TO_RELATIVES" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_RELATIVES" FromRole="RequestInfoWithoutFilter" ToRole="RegDiscRelatives"/>
+                <NavigationProperty Name="TO_QA_CERTIFICATES" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_QA_CERTIFICATES" FromRole="RequestInfoWithoutFilter" ToRole="REGDiscQaCertif"/>
+                <NavigationProperty Name="TO_ATTACH_FIELDS" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_ATTACH_FIELDS" FromRole="RequestInfoWithoutFilter" ToRole="REGAttachFields"/>
+                <NavigationProperty Name="TO_REQUEST_TYPE" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_REQUEST_TYPE" FromRole="RequestInfoWithoutFilter" ToRole="RequestType"/>
+                <NavigationProperty Name="TO_COMPANY_CODE" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_COMPANY_CODE" FromRole="RequestInfoWithoutFilter" ToRole="CompanyCode"/>
+                <NavigationProperty Name="TO_HIERARCHY" Relationship="registrationManageService.RequestInfoWithoutFilter_TO_HIERARCHY" FromRole="RequestInfoWithoutFilter" ToRole="MasterApprovalHierarchy"/>
+            </EntityType>
+            <EntityType Name="RequestReport">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="CONTACT_PERSON" Type="Edm.String"/>
+                <Property Name="PRIORITY" Type="Edm.String"/>
+                <Property Name="INSTRUCTIONS" Type="Edm.String"/>
+                <Property Name="SAP_VENDOR_CODE" Type="Edm.String" MaxLength="15"/>
+                <Property Name="VM_VENDOR_CODE" Type="Edm.Int64"/>
+                <Property Name="STATUS" Type="Edm.Int32"/>
+                <Property Name="REGISTERED_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="TYPE_OF_INDUSTRY" Type="Edm.String"/>
+                <Property Name="REQUEST_TYPE" Type="Edm.String"/>
+                <Property Name="CREATION_TYPE" Type="Edm.Int32"/>
+                <Property Name="VENDOR_NAME1" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_NAME2" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VENDOR_REPORT_PROGRSS" Type="Edm.String"/>
+                <Property Name="VENDOR_CODE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="APPROVER_LEVEL" Type="Edm.Int32"/>
+                <Property Name="APPROVER_ROLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NEXT_APPROVER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUESTER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SUPPL_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="SUPPL_TYPE_DESC" Type="Edm.String" MaxLength="50"/>
+                <Property Name="BP_TYPE_CODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BP_TYPE_DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REQUEST_RESENT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MDG_CR_NO" Type="Edm.String" MaxLength="15"/>
+                <Property Name="LAST_ACTIVE_REQ_NO" Type="Edm.Int64"/>
+                <Property Name="SECONDARY_EMAILS_ID" Type="Edm.String" MaxLength="500"/>
+                <Property Name="WEBSITE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="LEGAL_STRUCTURE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="LEGAL_STRUCTURE_OTHER" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ESTAB_YEAR" Type="Edm.String" MaxLength="4"/>
+                <Property Name="CERT_EXP_DATE" Type="Edm.String"/>
+                <Property Name="CERT_OF_INCORPORATION" Type="Edm.String"/>
+                <Property Name="VENDOR_CATEGORY" Type="Edm.String"/>
+                <Property Name="NO_OF_EMP" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ENGG" Type="Edm.Int32"/>
+                <Property Name="NO_OF_QUALITY" Type="Edm.Int32"/>
+                <Property Name="NO_OF_PROD" Type="Edm.Int32"/>
+                <Property Name="NO_OF_ADMIN" Type="Edm.Int32"/>
+                <Property Name="NO_OF_OTHERS" Type="Edm.Int32"/>
+                <Property Name="BUSINESS_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TRADE_LIC_NO_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="VAT_REG_NUMBER" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_REG_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="SUPPL_CATEGORY" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="SUPPL_CATEGORY_DESC" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="ACTIVITY_TYPE" Type="Edm.String" MaxLength="30"/>
+                <Property Name="ORDER_SIZE_MIN" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ORDER_SIZE_MAX" Type="Edm.String" MaxLength="50"/>
+                <Property Name="TOTAL_PROD_CAPACITY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="LAST_SAVED_STEP" Type="Edm.Int32"/>
+                <Property Name="COMPLETED_BY_POSITION" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ACK_VALIDATION" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SUBMISSION_DATE" Type="Edm.String"/>
+                <Property Name="DESIGNATION" Type="Edm.String"/>
+                <Property Name="COMPLETED_BY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DUE_DELI_NUM" Type="Edm.String"/>
+                <Property Name="PAN_NO" Type="Edm.String"/>
+                <Property Name="GST_NO" Type="Edm.String"/>
+                <Property Name="LST_NO" Type="Edm.String"/>
+                <Property Name="CST_NO" Type="Edm.String"/>
+                <Property Name="MSME_CATEGORY" Type="Edm.String"/>
+                <Property Name="VENDOR_ACCOUNT_GROUP" Type="Edm.String"/>
+                <Property Name="DUE_DILIGANCE" Type="Edm.Boolean"/>
+                <Property Name="DUE_DILIGANCE_REQ_NO" Type="Edm.String"/>
+                <Property Name="APPROVER" Type="Edm.String"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CURRENT_ASSIGNEE" Type="Edm.String"/>
+                <Property Name="REASSIGNED_ASSIGNEE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REASSIGN_FLAG" Type="Edm.Boolean"/>
+                <Property Name="REASSIGNED_USER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="OT_PARENT_ID" Type="Edm.String" MaxLength="10"/>
+                <Property Name="OT_FOLDER1_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER2_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER3_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="OT_FOLDER4_ID" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="ICV_SCORE" Type="Edm.Decimal" sap:variable-scale="true"/>
+                <Property Name="ICV_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="ICV_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="NDA_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="REMINDER_COUNT" Type="Edm.Int32"/>
+                <Property Name="BUYER_ASSIGN_CHECK" Type="Edm.String" MaxLength="1"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="COMMENT" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="PROCESS_LEVEL" Type="Edm.String" MaxLength="10"/>
+                <NavigationProperty Name="TO_STATUS" Relationship="registrationManageService.RequestReport_TO_STATUS" FromRole="RequestReport" ToRole="Status"/>
+                <NavigationProperty Name="TO_ADDRESS" Relationship="registrationManageService.RequestReport_TO_ADDRESS" FromRole="RequestReport" ToRole="REGAddress"/>
+                <NavigationProperty Name="TO_CONTACTS" Relationship="registrationManageService.RequestReport_TO_CONTACTS" FromRole="RequestReport" ToRole="REGContacts"/>
+                <NavigationProperty Name="TO_BANKS" Relationship="registrationManageService.RequestReport_TO_BANKS" FromRole="RequestReport" ToRole="REGBanks"/>
+                <NavigationProperty Name="TO_FINANCE" Relationship="registrationManageService.RequestReport_TO_FINANCE" FromRole="RequestReport" ToRole="RegFinancial"/>
+                <NavigationProperty Name="TO_ATTACHMENTS" Relationship="registrationManageService.RequestReport_TO_ATTACHMENTS" FromRole="RequestReport" ToRole="REGAttachments"/>
+                <NavigationProperty Name="TO_TAXCertificate" Relationship="registrationManageService.RequestReport_TO_TAXCertificate" FromRole="RequestReport" ToRole="REG_TAXCertificate"/>
+                <NavigationProperty Name="TO_PRODUCT_SERVICES" Relationship="registrationManageService.RequestReport_TO_PRODUCT_SERVICES" FromRole="RequestReport" ToRole="RegProdServ"/>
+                <NavigationProperty Name="TO_CAPACITY" Relationship="registrationManageService.RequestReport_TO_CAPACITY" FromRole="RequestReport" ToRole="RegCapacity"/>
+                <NavigationProperty Name="TO_CUSTOMERS" Relationship="registrationManageService.RequestReport_TO_CUSTOMERS" FromRole="RequestReport" ToRole="RegCustomers"/>
+                <NavigationProperty Name="TO_DISCLOSURE_FIELDS" Relationship="registrationManageService.RequestReport_TO_DISCLOSURE_FIELDS" FromRole="RequestReport" ToRole="RegDiscInfo"/>
+                <NavigationProperty Name="TO_RELATIVES" Relationship="registrationManageService.RequestReport_TO_RELATIVES" FromRole="RequestReport" ToRole="RegDiscRelatives"/>
+                <NavigationProperty Name="TO_QA_CERTIFICATES" Relationship="registrationManageService.RequestReport_TO_QA_CERTIFICATES" FromRole="RequestReport" ToRole="REGDiscQaCertif"/>
+                <NavigationProperty Name="TO_ATTACH_FIELDS" Relationship="registrationManageService.RequestReport_TO_ATTACH_FIELDS" FromRole="RequestReport" ToRole="REGAttachFields"/>
+                <NavigationProperty Name="TO_REQUEST_TYPE" Relationship="registrationManageService.RequestReport_TO_REQUEST_TYPE" FromRole="RequestReport" ToRole="RequestType"/>
+                <NavigationProperty Name="TO_COMPANY_CODE" Relationship="registrationManageService.RequestReport_TO_COMPANY_CODE" FromRole="RequestReport" ToRole="CompanyCode"/>
+                <NavigationProperty Name="TO_HIERARCHY" Relationship="registrationManageService.RequestReport_TO_HIERARCHY" FromRole="RequestReport" ToRole="MasterApprovalHierarchy"/>
+            </EntityType>
+            <EntityType Name="Reqstatus">
+                <Property Name="STATUS2" Type="Edm.Int32"/>
+                <Property Name="STATUS3" Type="Edm.Int32"/>
+                <Property Name="STATUS4" Type="Edm.Int32"/>
+                <Property Name="STATUS5" Type="Edm.Int32"/>
+                <Property Name="STATUS7" Type="Edm.Int32"/>
+                <Property Name="STATUS16" Type="Edm.Int32"/>
+                <Property Name="STATUS10" Type="Edm.Int32"/>
+                <Property Name="STATUS15" Type="Edm.Int32"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="x" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="RegDiscInfo">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="INTEREST_CONFLICT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="INTEREST_CONFLICT_TEXT" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ANY_LEGAL_CASES" Type="Edm.String" MaxLength="5"/>
+                <Property Name="ANY_LEGAL_CASES_TEXT" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ABAC_REG" Type="Edm.String"/>
+                <Property Name="CONTROL_REGULATION" Type="Edm.String"/>
+                <Property Name="AKN_SIGNATURE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="AKN_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="AKN_DESIGNATION" Type="Edm.String" MaxLength="100"/>
+                <Property Name="AKN_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="AKN_COMPANY_STAMP" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ACADEMIC_DISCOUNT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="RELATIVE_WORKING" Type="Edm.String" MaxLength="5"/>
+                <Property Name="VALID_SIGNATORY_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="VALID_DESIGNATION" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REACH_COMPLIANCE" Type="Edm.String" MaxLength="5"/>
+                <Property Name="CLP_COMPLIANCE" Type="Edm.String" MaxLength="5"/>
+                <Property Name="APPLY_ITAR_REG" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SUPPLY_ITAR_EAR" Type="Edm.String" MaxLength="5"/>
+                <Property Name="APPLY_FCPA" Type="Edm.String" MaxLength="5"/>
+                <Property Name="US_ORIGIN_SUPPL" Type="Edm.String" MaxLength="5"/>
+                <Property Name="ERP_MGMT_SYSTEM" Type="Edm.String" MaxLength="5"/>
+                <Property Name="ERP_MGMT_SYSTEM_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="INDUSRIAL_DESIGN_SW" Type="Edm.String" MaxLength="5"/>
+                <Property Name="INDUSRIAL_DESIGN_SW_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COUNTERFIET_PARTS_PCD" Type="Edm.String" MaxLength="5"/>
+                <Property Name="QUALITY_AGREEMENT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MANUFACTURING_PCD" Type="Edm.String" MaxLength="5"/>
+                <Property Name="TECH_SPEC_MFG_SRV" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PLAN_COLLECTION" Type="Edm.String" MaxLength="5"/>
+                <Property Name="ANALYSIS_RISKMGMT_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="CONFIG_CTRL_SYSTEM" Type="Edm.String" MaxLength="5"/>
+                <Property Name="CTRL_PLANNING_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="CONT_IMPROVEMENT_PROG" Type="Edm.String" MaxLength="5"/>
+                <Property Name="EPI_QUALITY_SUPPL_REQ" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SUPPL_EVAL_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="NON_CONF_ANALYSIS" Type="Edm.String" MaxLength="5"/>
+                <Property Name="TECH_SPEC_MATERIAL" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MATERIAL_INSPECTION_TESTS" Type="Edm.String" MaxLength="5"/>
+                <Property Name="CTRL_ORDERS_DOC_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="TECHNICAL_DOC_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="QUALIFIED_STAFF" Type="Edm.String" MaxLength="5"/>
+                <Property Name="QUALIFICATION_ARRAY" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PROC_FOR_INCOMING" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MFG_INSPECTION_TESTS" Type="Edm.String" MaxLength="5"/>
+                <Property Name="INTERAL_QUAL_AUDITS" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MEASURING_EQUIP_CALIB" Type="Edm.String" MaxLength="5"/>
+                <Property Name="NON_CONF_TREATMENT_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="REPTITIVE_CAUSES_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="IDENTIFICATION_METHOD" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MAINTENANCE_SCHEDULES" Type="Edm.String" MaxLength="5"/>
+                <Property Name="WORK_INSTRUCTION_METHODS" Type="Edm.String" MaxLength="5"/>
+                <Property Name="DOCUMENTED_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PLANNING_CONTROL_SYSTEM" Type="Edm.String" MaxLength="5"/>
+                <Property Name="CRITERIA_COLLECT_PROC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="COMP_BASED_WMS" Type="Edm.String" MaxLength="5"/>
+                <Property Name="ESTAB_CRITERIA" Type="Edm.String" MaxLength="5"/>
+                <Property Name="DEFINED_POLICIES" Type="Edm.String" MaxLength="5"/>
+                <Property Name="CUSTOMER_SERVICE" Type="Edm.String" MaxLength="5"/>
+                <Property Name="MASS_SERIES_PROD" Type="Edm.String" MaxLength="5"/>
+                <Property Name="TECH_SUPPORT" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SFTY_ENVI_POLICY" Type="Edm.String" MaxLength="5"/>
+                <Property Name="ENVI_FRIENDLY_PROD" Type="Edm.String" MaxLength="5"/>
+                <Property Name="SUSTAINABILITY_PROG" Type="Edm.String" MaxLength="5"/>
+                <Property Name="COMPLY_LABOR_REG" Type="Edm.String" MaxLength="5"/>
+                <Property Name="REQUIRE_EUC" Type="Edm.String" MaxLength="5"/>
+                <Property Name="EXPORT_CNTRL" Type="Edm.String" MaxLength="5"/>
+            </EntityType>
+            <EntityType Name="RequestType">
+                <Key>
+                    <PropertyRef Name="CODE"/>
+                </Key>
+                <Property Name="CODE" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DESCRIPTION" Type="Edm.String" MaxLength="50"/>
+                <Property Name="SUPPLIER_TYPE" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="VMUsers">
+                <Key>
+                    <PropertyRef Name="EMAIL"/>
+                </Key>
+                <Property Name="SR_NO" Type="Edm.Int32"/>
+                <Property Name="message" Type="Edm.String"/>
+                <Property Name="STATUS" Type="Edm.String"/>
+                <Property Name="USER_ID" Type="Edm.String" MaxLength="50"/>
+                <Property Name="USER_ROLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="USER_NAME" Type="Edm.String" MaxLength="500"/>
+                <Property Name="EMAIL" Type="Edm.String" MaxLength="150" Nullable="false"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="500"/>
+                <Property Name="COMPANY_DESC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="EMP_NO" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ACTIVE" Type="Edm.String" MaxLength="1"/>
+                <NavigationProperty Name="TO_COMPANY_CODE" Relationship="registrationManageService.VMUsers_TO_COMPANY_CODE" FromRole="VMUsers" ToRole="CompanyCode"/>
+                <NavigationProperty Name="TO_USER_ENTITIES" Relationship="registrationManageService.VMUsers_TO_USER_ENTITIES" FromRole="VMUsers" ToRole="VMUserCompanyCode"/>
+            </EntityType>
+            <EntityType Name="VMUserCompanyCode">
+                <Key>
+                    <PropertyRef Name="EMAIL"/>
+                </Key>
+                <Property Name="USER_ID" Type="Edm.String" MaxLength="50"/>
+                <Property Name="USER_ROLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="COMPANY_CODE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="EMAIL" Type="Edm.String" MaxLength="150" Nullable="false"/>
+                <Property Name="COMPANY_DESC" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="RegDiscRelatives">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="RELATIONSHIP" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="REGDiscQaCertif">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="CERTI_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CERTI_TYPE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="AVAILABLE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DONE_BY" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="REGAttachFields">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="ISSUE_ELEC_TAX_INV" Type="Edm.String" MaxLength="100"/>
+                <Property Name="SOLE_DIST_MFG_SER" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PASSPORT_OF_AUTH_SIGNATORY" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PASSPORT_REPR_AUTH_PERSON" Type="Edm.String" MaxLength="5"/>
+            </EntityType>
+            <EntityType Name="REGAttachments">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="REGESTERED_MAIL"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="REGESTERED_MAIL" Type="Edm.String" Nullable="false"/>
+                <Property Name="DESCRIPTION" Type="Edm.String"/>
+                <Property Name="IMAGEURL" Type="Edm.String"/>
+                <Property Name="IMAGE_FILE_NAME" Type="Edm.String"/>
+                <Property Name="DATE_OF_INQUIRY" Type="Edm.String"/>
+                <Property Name="ATTACH_SHORT_DEC" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="REG_TAXCertificate">
+                <Key>
+                    <PropertyRef Name="REGESTERED_MAIL"/>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REGESTERED_MAIL" Type="Edm.String" Nullable="false"/>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="DESCRIPTION" Type="Edm.String"/>
+                <Property Name="IMAGEURL" Type="Edm.String"/>
+                <Property Name="IMAGE_FILE_NAME" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="REGCMS">
+                <Key>
+                    <PropertyRef Name="DOC_ID"/>
+                </Key>
+                <Property Name="DOC_ID" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="FILE_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="FILE_MIMETYPE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="FILE_CONTENT" Type="Edm.Binary"/>
+                <Property Name="UPLOADED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="ACTIVE_FLAG" Type="Edm.String" MaxLength="1"/>
+            </EntityType>
+            <EntityType Name="REGAddress">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32"/>
+                <Property Name="REGION" Type="Edm.String"/>
+                <Property Name="ADDRESS_TYPE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="ADDRESS_DESC" Type="Edm.String" MaxLength="50"/>
+                <Property Name="PINCODE" Type="Edm.String"/>
+                <Property Name="HOUSE_NUM1" Type="Edm.String" MaxLength="10"/>
+                <Property Name="STREET" Type="Edm.String" MaxLength="20"/>
+                <Property Name="STREET1" Type="Edm.String" MaxLength="60"/>
+                <Property Name="STREET2" Type="Edm.String" MaxLength="40"/>
+                <Property Name="STREET3" Type="Edm.String" MaxLength="40"/>
+                <Property Name="STREET4" Type="Edm.String" MaxLength="40"/>
+                <Property Name="CITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="STATE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COUNTRY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="POSTAL_CODE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CONTACT_NO" Type="Edm.String" MaxLength="30"/>
+                <Property Name="CONTACT_TELECODE" Type="Edm.String" MaxLength="40"/>
+                <Property Name="FAX_NO" Type="Edm.String" MaxLength="10"/>
+                <Property Name="EMAIL" Type="Edm.String" MaxLength="241"/>
+                <Property Name="EMAIL_ADDRESS_FOR_PAYMENT" Type="Edm.String"/>
+                <Property Name="DISTRICT" Type="Edm.String" MaxLength="35"/>
+                <NavigationProperty Name="TO_COUNTRY" Relationship="registrationManageService.REGAddress_TO_COUNTRY" FromRole="REGAddress" ToRole="Country"/>
+                <NavigationProperty Name="TO_REGION" Relationship="registrationManageService.REGAddress_TO_REGION" FromRole="REGAddress" ToRole="Region"/>
+            </EntityType>
+            <EntityType Name="REGContacts">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32"/>
+                <Property Name="FIRST_NAME" Type="Edm.String" MaxLength="35"/>
+                <Property Name="LAST_NAME" Type="Edm.String" MaxLength="35"/>
+                <Property Name="HOUSE_NUM1" Type="Edm.String" MaxLength="10"/>
+                <Property Name="STREET1" Type="Edm.String" MaxLength="40"/>
+                <Property Name="STREET2" Type="Edm.String" MaxLength="40"/>
+                <Property Name="CITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="STATE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COUNTRY" Type="Edm.String"/>
+                <Property Name="POSTAL_CODE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="DESIGNATION" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NATIONALITY" Type="Edm.String" MaxLength="30"/>
+                <Property Name="PASSPORT_NO" Type="Edm.String" MaxLength="30"/>
+                <Property Name="EMAIL" Type="Edm.String" MaxLength="241"/>
+                <Property Name="CONTACT_NO" Type="Edm.String" MaxLength="30"/>
+                <Property Name="MOBILE_NO" Type="Edm.String" MaxLength="30"/>
+                <Property Name="CONTACT_TYPE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="CONTACT_TELECODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="MOBILE_TELECODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BP_ID" Type="Edm.String" MaxLength="10"/>
+                <NavigationProperty Name="TO_COUNTRY" Relationship="registrationManageService.REGContacts_TO_COUNTRY" FromRole="REGContacts" ToRole="Country"/>
+                <NavigationProperty Name="TO_REGION" Relationship="registrationManageService.REGContacts_TO_REGION" FromRole="REGContacts" ToRole="Region"/>
+            </EntityType>
+            <EntityType Name="REGBanks">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32"/>
+                <Property Name="ACCOUNT_TYPE" Type="Edm.String"/>
+                <Property Name="LOCAL_SALES_TAX_NO" Type="Edm.String"/>
+                <Property Name="COMMERCIAL_SALES_TAX_NO" Type="Edm.String"/>
+                <Property Name="MSME_CATEGORY" Type="Edm.String"/>
+                <Property Name="NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="IFSC" Type="Edm.String"/>
+                <Property Name="BENEFICIARY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="ACCOUNT_NO" Type="Edm.String" MaxLength="38"/>
+                <Property Name="ACCOUNT_NAME" Type="Edm.String" MaxLength="40"/>
+                <Property Name="ACCOUNT_HOLDER" Type="Edm.String" MaxLength="60"/>
+                <Property Name="BANK_ID" Type="Edm.String" MaxLength="4"/>
+                <Property Name="BANK_KEY" Type="Edm.String" MaxLength="15"/>
+                <Property Name="BANK_SECTION" Type="Edm.String" MaxLength="20"/>
+                <Property Name="BANK_COUNTRY" Type="Edm.String" MaxLength="50"/>
+                <Property Name="BANK_NAME" Type="Edm.String"/>
+                <Property Name="BRANCH_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="IBAN_NUMBER" Type="Edm.String" MaxLength="34"/>
+                <Property Name="SWIFT_CODE" Type="Edm.String" MaxLength="15"/>
+                <Property Name="BIC_CODE" Type="Edm.String" MaxLength="15"/>
+                <Property Name="ROUTING_CODE" Type="Edm.String" MaxLength="15"/>
+                <Property Name="OTHER_CODE" Type="Edm.String" MaxLength="1"/>
+                <Property Name="OTHER_CODE_NAME" Type="Edm.String" MaxLength="15"/>
+                <Property Name="OTHER_CODE_VAL" Type="Edm.String" MaxLength="15"/>
+                <Property Name="PAYMENT_METHOD" Type="Edm.String" MaxLength="25"/>
+                <Property Name="PAYMENT_METHOD_DESC" Type="Edm.String" MaxLength="30"/>
+                <Property Name="PAYMENT_TERMS" Type="Edm.String" MaxLength="25"/>
+                <Property Name="PAYMENT_TERMS_DESC" Type="Edm.String" MaxLength="30"/>
+                <Property Name="INVOICE_CURRENCY" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_REG_NUMBER" Type="Edm.String" MaxLength="25"/>
+                <Property Name="VAT_REG_DATE" Type="Edm.DateTime" sap:display-format="Date"/>
+                <Property Name="DUNS_NUMBER" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BANK_CURRENCY" Type="Edm.String" MaxLength="5"/>
+                <Property Name="BANK_NO" Type="Edm.String" MaxLength="15"/>
+                <Property Name="PAYMENT_TYPE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="GST" Type="Edm.String" MaxLength="20"/>
+                <Property Name="GSTYES_NO" Type="Edm.String"/>
+                <NavigationProperty Name="TO_COUNTRY" Relationship="registrationManageService.REGBanks_TO_COUNTRY" FromRole="REGBanks" ToRole="Country"/>
+            </EntityType>
+            <EntityType Name="RegFinancial">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="FIN_YEAR" Type="Edm.Int32"/>
+                <Property Name="TOTAL_REVENUE" Type="Edm.Double"/>
+                <Property Name="NET_PROFIT_LOSS" Type="Edm.Double"/>
+                <Property Name="TOTAL_ASSETS" Type="Edm.Double"/>
+                <Property Name="TOTAL_EQUITY" Type="Edm.Double"/>
+                <Property Name="CURRENCY" Type="Edm.String" MaxLength="10"/>
+            </EntityType>
+            <EntityType Name="RegOwners">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="NATIONALITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CONTACT_NO" Type="Edm.String" MaxLength="12"/>
+                <Property Name="CONTACT_TELECODE" Type="Edm.String" MaxLength="4"/>
+                <Property Name="PASSPORT_NO" Type="Edm.String" MaxLength="30"/>
+                <Property Name="ACTIVITY_TYPE" Type="Edm.String" MaxLength="30"/>
+                <Property Name="OWNERSHIP_PERCENT" Type="Edm.Double"/>
+                <NavigationProperty Name="TO_COUNTRY" Relationship="registrationManageService.RegOwners_TO_COUNTRY" FromRole="RegOwners" ToRole="Country"/>
+            </EntityType>
+            <EntityType Name="RegProdServ">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="TYPE"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="TYPE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="PROD_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PROD_DESCRIPTION" Type="Edm.String" MaxLength="200"/>
+                <Property Name="PROD_CATEGORY" Type="Edm.String" MaxLength="200"/>
+                <Property Name="PROD_CATEGORY_DEC" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PROD_TYPE" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="RegCapacity">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="TOTAL_PROD_CAPACITY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="MINIMUM_ORDER_SIZE" Type="Edm.String"/>
+                <Property Name="MAXMIMUM_ORDER_SIZE" Type="Edm.String"/>
+                <Property Name="CITY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COUNTRY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="PLANT_MANF_CAPABILITY" Type="Edm.String" MaxLength="5"/>
+                <Property Name="PROD_CAPACITY" Type="Edm.Double"/>
+                <Property Name="TIME_TO_SERVICE" Type="Edm.String" MaxLength="50"/>
+                <NavigationProperty Name="TO_COUNTRY" Relationship="registrationManageService.RegCapacity_TO_COUNTRY" FromRole="RegCapacity" ToRole="Country"/>
+            </EntityType>
+            <EntityType Name="RegCustomers">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="CUSTOMER_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CUSTOMER_SHARE" Type="Edm.Double"/>
+            </EntityType>
+            <EntityType Name="RegOEM">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="SR_NO"/>
+                    <PropertyRef Name="OEM_TYPE"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="SR_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="OEM_TYPE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="COMPANY_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COUNTRY" Type="Edm.String" MaxLength="100"/>
+                <Property Name="OEM_CATEGORY" Type="Edm.String" MaxLength="100"/>
+            </EntityType>
+            <EntityType Name="REGEventsLog">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                    <PropertyRef Name="EVENT_NO"/>
+                </Key>
+                <Property Name="REQUEST_NO" Type="Edm.Int64" Nullable="false"/>
+                <Property Name="EVENT_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="EVENT_CODE" Type="Edm.Int32"/>
+                <Property Name="EVENT_TYPE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="USER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="USER_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REMARK" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMMENT" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+            </EntityType>
+            <EntityType Name="RegSupplierLog">
+                <Key>
+                    <PropertyRef Name="SAP_VENDOR_CODE"/>
+                    <PropertyRef Name="EVENT_NO"/>
+                </Key>
+                <Property Name="SAP_VENDOR_CODE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="EVENT_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="EVENT_CODE" Type="Edm.Int32"/>
+                <Property Name="EVENT_TYPE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="USER_ID" Type="Edm.String" MaxLength="100"/>
+                <Property Name="USER_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="REMARK" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COMMENT" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="UPDATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="UPDATED_FIELD_NAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="CHANGE_VALUE" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="ORG_VALUE" Type="Edm.String" MaxLength="5000"/>
+                <Property Name="REQUEST_NO" Type="Edm.Int64"/>
+            </EntityType>
+            <EntityType Name="RegVendorCategory">
+                <Key>
+                    <PropertyRef Name="WGBEZ"/>
+                </Key>
+                <Property Name="MANDT" Type="Edm.String" MaxLength="30"/>
+                <Property Name="MATKL" Type="Edm.String" MaxLength="20"/>
+                <Property Name="SPRAS" Type="Edm.String" MaxLength="10"/>
+                <Property Name="WGBEZ" Type="Edm.String" MaxLength="50" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Attachment_CompanyProfile">
+                <Key>
+                    <PropertyRef Name="REGESTERED_MAIL"/>
+                </Key>
+                <Property Name="REGESTERED_MAIL" Type="Edm.String" Nullable="false"/>
+                <Property Name="REQUEST_NO" Type="Edm.Int32"/>
+                <Property Name="DESCRIPTION" Type="Edm.String"/>
+                <Property Name="IMAGEURL" Type="Edm.String"/>
+                <Property Name="IMAGE_FILE_NAME" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="MonthlyRequestCounts">
+                <Key>
+                    <PropertyRef Name="month"/>
+                </Key>
+                <Property Name="month" Type="Edm.String" MaxLength="9" Nullable="false"/>
+                <Property Name="requestCreatedCount" Type="Edm.Int32"/>
+                <Property Name="registrationInProcessCount" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="VendorStatusCounts">
+                <Key>
+                    <PropertyRef Name="status"/>
+                </Key>
+                <Property Name="status" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="description" Type="Edm.String"/>
+                <Property Name="count" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="FormData">
+                <Key>
+                    <PropertyRef Name="vendorOrganizationName"/>
+                </Key>
+                <Property Name="vendorOrganizationName" Type="Edm.String" Nullable="false"/>
+                <Property Name="priority" Type="Edm.String"/>
+                <Property Name="contactPerson" Type="Edm.String"/>
+                <Property Name="street" Type="Edm.String"/>
+                <Property Name="street2" Type="Edm.String"/>
+                <Property Name="street3" Type="Edm.String"/>
+                <Property Name="city" Type="Edm.String"/>
+                <Property Name="state" Type="Edm.String"/>
+                <Property Name="country" Type="Edm.String"/>
+                <Property Name="emailAddress" Type="Edm.String"/>
+                <Property Name="emailForPayment" Type="Edm.String"/>
+                <Property Name="telephoneNo" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="RequestCounts">
+                <Key>
+                    <PropertyRef Name="requestType"/>
+                </Key>
+                <Property Name="requestType" Type="Edm.String" Nullable="false"/>
+                <Property Name="count" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="VendorAccountGroupAttachments">
+                <Key>
+                    <PropertyRef Name="accountGroupCode"/>
+                </Key>
+                <Property Name="accountGroupCode" Type="Edm.String" MaxLength="4" Nullable="false"/>
+                <Property Name="requisiteDocuments" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="TimeRangeFilter">
+                <Key>
+                    <PropertyRef Name="selectedTime"/>
+                </Key>
+                <Property Name="selectedTime" Type="Edm.String" Nullable="false"/>
+                <Property Name="LABEL" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="RequestsStuckInApprovalForOverMonth">
+                <Key>
+                    <PropertyRef Name="REQUEST_NO"/>
+                </Key>
+                <Property Name="REGISTERED_ID" Type="Edm.String"/>
+                <Property Name="REQUEST_NO" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="LAST_UPDATED_ON" Type="Edm.DateTimeOffset"/>
+                <Property Name="REQUESTER_ID" Type="Edm.String"/>
+                <Property Name="STATUS" Type="Edm.Int32"/>
+                <Property Name="selectedTime" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="RequestSummary">
+                <Key>
+                    <PropertyRef Name="totalRequests"/>
+                </Key>
+                <Property Name="totalRequests" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="inApproval" Type="Edm.Int32"/>
+                <Property Name="rejected" Type="Edm.Int32"/>
+                <Property Name="completed" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="REGApprovalNo">
+                <Property Name="REQUEST_NO" Type="Edm.Int32"/>
+                <Property Name="ApprovalLevel" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="UserAttributes">
+                <Property Name="appId" Type="Edm.String"/>
+                <Property Name="title" Type="Edm.String"/>
+                <Property Name="icon" Type="Edm.String"/>
+                <Property Name="expanded" Type="Edm.Boolean"/>
+                <Property Name="email" Type="Edm.String"/>
+                <Property Name="role" Type="Edm.String"/>
+                <Property Name="roles" Type="Edm.String"/>
+            </EntityType>
+            <ComplexType Name="securityPinResponse">
+                <Property Name="CREATED_ON" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="IS_MATCH" Type="Edm.Boolean"/>
+                <Property Name="RESPONSE_MESSAGE" Type="Edm.String" MaxLength="30"/>
+            </ComplexType>
+            <ComplexType Name="User_Details">
+                <Property Name="USER_ROLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="USER_ID" Type="Edm.String" MaxLength="50"/>
+            </ComplexType>
+            <ComplexType Name="MessengerData">
+                <Property Name="loginId" Type="Edm.String"/>
+                <Property Name="mailTo" Type="Edm.String"/>
+            </ComplexType>
+            <ComplexType Name="AttachmentID">
+                <Property Name="REQUEST_NO" Type="Edm.Int64"/>
+                <Property Name="SR_NO" Type="Edm.Int32"/>
+                <Property Name="DOC_ID" Type="Edm.Int64"/>
+            </ComplexType>
+            <Association Name="MasterApprovalHierarchy_TO_COMPANY_CODE">
+                <End Role="MasterApprovalHierarchy" Type="registrationManageService.MasterApprovalHierarchy" Multiplicity="*"/>
+                <End Role="CompanyCode" Type="registrationManageService.CompanyCode" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="CompanyCode">
+                        <PropertyRef Name="BUKRS"/>
+                    </Principal>
+                    <Dependent Role="MasterApprovalHierarchy">
+                        <PropertyRef Name="COMPANY_CODE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Telecode_TO_COUNTRY">
+                <End Role="Telecode" Type="registrationManageService.Telecode" Multiplicity="*"/>
+                <End Role="Country" Type="registrationManageService.Country" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="RequestInfo_TO_STATUS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="Status" Type="registrationManageService.Status" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="Status">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestInfo">
+                        <PropertyRef Name="STATUS"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfo_TO_ADDRESS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="REGAddress" Type="registrationManageService.REGAddress" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_CONTACTS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="REGContacts" Type="registrationManageService.REGContacts" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_BANKS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="REGBanks" Type="registrationManageService.REGBanks" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_FINANCE">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="RegFinancial" Type="registrationManageService.RegFinancial" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_ATTACHMENTS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="REGAttachments" Type="registrationManageService.REGAttachments" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_TAXCertificate">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="REG_TAXCertificate" Type="registrationManageService.REG_TAXCertificate" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_PRODUCT_SERVICES">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="RegProdServ" Type="registrationManageService.RegProdServ" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_CAPACITY">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="RegCapacity" Type="registrationManageService.RegCapacity" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_CUSTOMERS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="RegCustomers" Type="registrationManageService.RegCustomers" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_DISCLOSURE_FIELDS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="RegDiscInfo" Type="registrationManageService.RegDiscInfo" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_RELATIVES">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="RegDiscRelatives" Type="registrationManageService.RegDiscRelatives" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_QA_CERTIFICATES">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="REGDiscQaCertif" Type="registrationManageService.REGDiscQaCertif" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_ATTACH_FIELDS">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="REGAttachFields" Type="registrationManageService.REGAttachFields" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfo_TO_REQUEST_TYPE">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="RequestType" Type="registrationManageService.RequestType" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="RequestType">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestInfo">
+                        <PropertyRef Name="REQUEST_TYPE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfo_TO_COMPANY_CODE">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="CompanyCode" Type="registrationManageService.CompanyCode" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="CompanyCode">
+                        <PropertyRef Name="BUKRS"/>
+                    </Principal>
+                    <Dependent Role="RequestInfo">
+                        <PropertyRef Name="COMPANY_CODE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfo_TO_HIERARCHY">
+                <End Role="RequestInfo" Type="registrationManageService.RequestInfo" Multiplicity="*"/>
+                <End Role="MasterApprovalHierarchy" Type="registrationManageService.MasterApprovalHierarchy" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_STATUS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="Status" Type="registrationManageService.Status" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="Status">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestInfoByRegId">
+                        <PropertyRef Name="STATUS"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_ADDRESS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="REGAddress" Type="registrationManageService.REGAddress" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_CONTACTS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="REGContacts" Type="registrationManageService.REGContacts" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_BANKS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="REGBanks" Type="registrationManageService.REGBanks" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_FINANCE">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="RegFinancial" Type="registrationManageService.RegFinancial" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_ATTACHMENTS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="REGAttachments" Type="registrationManageService.REGAttachments" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_TAXCertificate">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="REG_TAXCertificate" Type="registrationManageService.REG_TAXCertificate" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_PRODUCT_SERVICES">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="RegProdServ" Type="registrationManageService.RegProdServ" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_CAPACITY">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="RegCapacity" Type="registrationManageService.RegCapacity" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_CUSTOMERS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="RegCustomers" Type="registrationManageService.RegCustomers" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_DISCLOSURE_FIELDS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="RegDiscInfo" Type="registrationManageService.RegDiscInfo" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_RELATIVES">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="RegDiscRelatives" Type="registrationManageService.RegDiscRelatives" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_QA_CERTIFICATES">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="REGDiscQaCertif" Type="registrationManageService.REGDiscQaCertif" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_ATTACH_FIELDS">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="REGAttachFields" Type="registrationManageService.REGAttachFields" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_REQUEST_TYPE">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="RequestType" Type="registrationManageService.RequestType" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="RequestType">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestInfoByRegId">
+                        <PropertyRef Name="REQUEST_TYPE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_COMPANY_CODE">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="CompanyCode" Type="registrationManageService.CompanyCode" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="CompanyCode">
+                        <PropertyRef Name="BUKRS"/>
+                    </Principal>
+                    <Dependent Role="RequestInfoByRegId">
+                        <PropertyRef Name="COMPANY_CODE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfoByRegId_TO_HIERARCHY">
+                <End Role="RequestInfoByRegId" Type="registrationManageService.RequestInfoByRegId" Multiplicity="*"/>
+                <End Role="MasterApprovalHierarchy" Type="registrationManageService.MasterApprovalHierarchy" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_STATUS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="Status" Type="registrationManageService.Status" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="Status">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestInfoWithoutFilter">
+                        <PropertyRef Name="STATUS"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_ADDRESS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="REGAddress" Type="registrationManageService.REGAddress" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_CONTACTS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="REGContacts" Type="registrationManageService.REGContacts" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_BANKS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="REGBanks" Type="registrationManageService.REGBanks" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_FINANCE">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="RegFinancial" Type="registrationManageService.RegFinancial" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_ATTACHMENTS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="REGAttachments" Type="registrationManageService.REGAttachments" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_TAXCertificate">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="REG_TAXCertificate" Type="registrationManageService.REG_TAXCertificate" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_PRODUCT_SERVICES">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="RegProdServ" Type="registrationManageService.RegProdServ" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_CAPACITY">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="RegCapacity" Type="registrationManageService.RegCapacity" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_CUSTOMERS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="RegCustomers" Type="registrationManageService.RegCustomers" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_DISCLOSURE_FIELDS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="RegDiscInfo" Type="registrationManageService.RegDiscInfo" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_RELATIVES">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="RegDiscRelatives" Type="registrationManageService.RegDiscRelatives" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_QA_CERTIFICATES">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="REGDiscQaCertif" Type="registrationManageService.REGDiscQaCertif" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_ATTACH_FIELDS">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="REGAttachFields" Type="registrationManageService.REGAttachFields" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_REQUEST_TYPE">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="RequestType" Type="registrationManageService.RequestType" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="RequestType">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestInfoWithoutFilter">
+                        <PropertyRef Name="REQUEST_TYPE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_COMPANY_CODE">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="CompanyCode" Type="registrationManageService.CompanyCode" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="CompanyCode">
+                        <PropertyRef Name="BUKRS"/>
+                    </Principal>
+                    <Dependent Role="RequestInfoWithoutFilter">
+                        <PropertyRef Name="COMPANY_CODE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestInfoWithoutFilter_TO_HIERARCHY">
+                <End Role="RequestInfoWithoutFilter" Type="registrationManageService.RequestInfoWithoutFilter" Multiplicity="*"/>
+                <End Role="MasterApprovalHierarchy" Type="registrationManageService.MasterApprovalHierarchy" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="RequestReport_TO_STATUS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="Status" Type="registrationManageService.Status" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="Status">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestReport">
+                        <PropertyRef Name="STATUS"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestReport_TO_ADDRESS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="REGAddress" Type="registrationManageService.REGAddress" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_CONTACTS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="REGContacts" Type="registrationManageService.REGContacts" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_BANKS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="REGBanks" Type="registrationManageService.REGBanks" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_FINANCE">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="RegFinancial" Type="registrationManageService.RegFinancial" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_ATTACHMENTS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="REGAttachments" Type="registrationManageService.REGAttachments" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_TAXCertificate">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="REG_TAXCertificate" Type="registrationManageService.REG_TAXCertificate" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_PRODUCT_SERVICES">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="RegProdServ" Type="registrationManageService.RegProdServ" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_CAPACITY">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="RegCapacity" Type="registrationManageService.RegCapacity" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_CUSTOMERS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="RegCustomers" Type="registrationManageService.RegCustomers" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_DISCLOSURE_FIELDS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="RegDiscInfo" Type="registrationManageService.RegDiscInfo" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_RELATIVES">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="RegDiscRelatives" Type="registrationManageService.RegDiscRelatives" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_QA_CERTIFICATES">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="REGDiscQaCertif" Type="registrationManageService.REGDiscQaCertif" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_ATTACH_FIELDS">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="REGAttachFields" Type="registrationManageService.REGAttachFields" Multiplicity="*"/>
+            </Association>
+            <Association Name="RequestReport_TO_REQUEST_TYPE">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="RequestType" Type="registrationManageService.RequestType" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="RequestType">
+                        <PropertyRef Name="CODE"/>
+                    </Principal>
+                    <Dependent Role="RequestReport">
+                        <PropertyRef Name="REQUEST_TYPE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestReport_TO_COMPANY_CODE">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="CompanyCode" Type="registrationManageService.CompanyCode" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="CompanyCode">
+                        <PropertyRef Name="BUKRS"/>
+                    </Principal>
+                    <Dependent Role="RequestReport">
+                        <PropertyRef Name="COMPANY_CODE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="RequestReport_TO_HIERARCHY">
+                <End Role="RequestReport" Type="registrationManageService.RequestReport" Multiplicity="*"/>
+                <End Role="MasterApprovalHierarchy" Type="registrationManageService.MasterApprovalHierarchy" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="VMUsers_TO_COMPANY_CODE">
+                <End Role="VMUsers" Type="registrationManageService.VMUsers" Multiplicity="*"/>
+                <End Role="CompanyCode" Type="registrationManageService.CompanyCode" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Principal Role="CompanyCode">
+                        <PropertyRef Name="BUKRS"/>
+                    </Principal>
+                    <Dependent Role="VMUsers">
+                        <PropertyRef Name="COMPANY_CODE"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VMUsers_TO_USER_ENTITIES">
+                <End Role="VMUsers" Type="registrationManageService.VMUsers" Multiplicity="*"/>
+                <End Role="VMUserCompanyCode" Type="registrationManageService.VMUserCompanyCode" Multiplicity="*"/>
+            </Association>
+            <Association Name="REGAddress_TO_COUNTRY">
+                <End Role="REGAddress" Type="registrationManageService.REGAddress" Multiplicity="*"/>
+                <End Role="Country" Type="registrationManageService.Country" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="REGAddress_TO_REGION">
+                <End Role="REGAddress" Type="registrationManageService.REGAddress" Multiplicity="*"/>
+                <End Role="Region" Type="registrationManageService.Region" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="REGContacts_TO_COUNTRY">
+                <End Role="REGContacts" Type="registrationManageService.REGContacts" Multiplicity="*"/>
+                <End Role="Country" Type="registrationManageService.Country" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="REGContacts_TO_REGION">
+                <End Role="REGContacts" Type="registrationManageService.REGContacts" Multiplicity="*"/>
+                <End Role="Region" Type="registrationManageService.Region" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="REGBanks_TO_COUNTRY">
+                <End Role="REGBanks" Type="registrationManageService.REGBanks" Multiplicity="*"/>
+                <End Role="Country" Type="registrationManageService.Country" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="RegOwners_TO_COUNTRY">
+                <End Role="RegOwners" Type="registrationManageService.RegOwners" Multiplicity="*"/>
+                <End Role="Country" Type="registrationManageService.Country" Multiplicity="0..1"/>
+            </Association>
+            <Association Name="RegCapacity_TO_COUNTRY">
+                <End Role="RegCapacity" Type="registrationManageService.RegCapacity" Multiplicity="*"/>
+                <End Role="Country" Type="registrationManageService.Country" Multiplicity="0..1"/>
+            </Association>
+            <Annotations Target="registrationManageService.MasterApprovalHierarchy/APPROVER_LEVEL" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Validation.Minimum" Int="1"/>
+                <Annotation Term="Validation.Maximum" Int="10000"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

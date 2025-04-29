@@ -1,0 +1,80 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Dialog title="🔐 Verify Your Email" stretch="false" >
+        <content>
+            <VBox class="sapUiTinyMargin">
+                <!-- ✅ Title Moved Outside of SimpleForm -->
+                <Title text="🔎 Enter Your Details" level="H2" class="sapUiSmallMarginBottom"/>
+
+                <form:SimpleForm
+                    layout="ResponsiveGridLayout"
+                    editable="true"
+                >
+                    <!-- <Label text="📌 Request Number"/>
+                    <Input
+                        id="idReq"
+                        placeholder="Enter your Request No."
+                        type="Number"
+                        width="100%"
+                    /> -->
+
+                    <Label text="📧 Email"/>
+                    <Input
+                        id="idEmail"
+                        placeholder="Enter your email"
+                        type="Email"
+                        liveChange=".onEmailChange"
+                        width="100%"
+                        showValueHelp="true"
+                        valueHelpIconSrc="sap-icon://email"
+                        valueHelpRequest="onHelpRequest"
+                    />
+
+                    <Button
+                        text="📩 Generate OTP"
+                        press=".onSendOtp"
+                        id="idGetOTPButton"
+                        enabled="false"
+                        width="100%"
+                        type="Emphasized"
+                    />
+
+                    <!-- ✅ Title Moved Outside of SimpleForm -->
+                </form:SimpleForm>
+
+                <Title text="🔢 Enter OTP" level="H3" class="sapUiSmallMarginTop"/>
+
+                <form:SimpleForm
+                    layout="ResponsiveGridLayout"
+                    editable="true"
+                >
+                    <Label text="🔑 OTP"/>
+                    <Input
+                        id="idOTP"
+                        placeholder="Enter OTP"
+                        type="Number"
+                        maxLength="6"
+                        liveChange=".onOtpChange"
+                        enabled="false"
+                        width="100%"
+                        showValueHelp="true"
+                        valueHelpIconSrc="sap-icon://key"
+                        valueHelpRequest="onHelpRequest"
+                    />
+
+                    <Button
+                        text="✔ Verify Email"
+                        press="onVerifyEmail"
+                        id="idLoginButton"
+                        enabled="false"
+                        width="100%"
+                        type="Accept"
+                    />
+                </form:SimpleForm>
+            </VBox>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

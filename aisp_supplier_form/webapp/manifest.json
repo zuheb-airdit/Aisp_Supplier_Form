@@ -1,0 +1,178 @@
+{
+  "_version": "1.135.0",
+  "sap.app": {
+    "id": "com.aispsuppform.aispsupplierform",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.17.3",
+      "toolsId": "3cbd91d3-a406-45ec-8650-e5c08910ccb1"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/v2/odata/v4/registration-manage/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "formSource": {
+        "uri": "model/formStructure.json",
+        "type": "JSON"
+      },
+      "admin": {
+        "uri": "v2/odata/v4/admin/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/admin/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      },
+      "pin": {
+        "uri": "v2/odata/v4/pin/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/pin/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "SupplierForm-Creation": {
+          "semanticObject": "SupplierForm",
+          "action": "Creation",
+          "title": "{{SupplierForm-Creation.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.135.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.aispsuppform.aispsupplierform.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      },
+      "formData": {
+        "dataSource": "formSource",
+        "type": "sap.ui.model.json.JSONModel"
+      },
+      "admin": {
+        "dataSource": "admin",
+        "preload": true,
+        "settings": {}
+      },
+      "pin": {
+        "dataSource": "pin",
+        "preload": true,
+        "settings": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "com.aispsuppform.aispsupplierform.view",
+        "async": true,
+        "viewPath": "com.aispsuppform.aispsupplierform.view"
+      },
+      "routes": [
+        {
+          "name": "RouteInstructionView",
+          "pattern": ":?query:",
+          "target": [
+            "TargetInstructionView"
+          ]
+        },
+        {
+          "name": "SupplierForm",
+          "pattern": "SupplierForm/{Email}",
+          "target": [
+            "TargetSupplierForm"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetInstructionView": {
+          "id": "InstructionView",
+          "name": "InstructionView"
+        },
+        "TargetSupplierForm": {
+          "id": "SupplierForm",
+          "name": "SupplierForm"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "com.aispsuppform.aispsupplierform.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "supplier_form"
+  }
+}
