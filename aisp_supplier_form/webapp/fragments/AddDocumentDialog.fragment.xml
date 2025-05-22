@@ -1,0 +1,33 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        id="addDocumentDialog"
+        title="Add New Document"
+        contentWidth="400px">
+        <VBox class="sapUiSmallMargin">
+            <Label text="Document Name" required="true"/>
+            <Input
+                id="documentNameInput"
+                placeholder="Enter document name"
+                value="{dialogModel>/newDocumentName}"/>
+            <MessageStrip
+                id="errorMessageStrip"
+                text="Document name already exists"
+                type="Error"
+                showCloseButton="true"
+                visible="{dialogModel>/showError}"/>
+        </VBox>
+        <beginButton>
+            <Button
+                text="Submit"
+                type="Emphasized"
+                press=".onSubmitDocumentName"/>
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancel"
+                press=".onCancelDocumentName"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

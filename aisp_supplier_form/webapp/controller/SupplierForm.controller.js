@@ -17,17 +17,18 @@ sap.ui.define(
         "sap/m/Table",
         "sap/m/Column",
         "sap/m/Text",
-        "sap/ui/unified/FileUploader"
+        "sap/ui/unified/FileUploader",
+        "sap/ui/core/Core"
 
     ],
-    function (Controller, MessageBox, JSONModel, SimpleForm, Label, Input, Button, Toolbar, ToolbarSpacer, Title, ComboBox, VBox, RadioButton, RadioButtonGroup, Table, Column, Text, FileUploader) {
+    function (Controller, MessageBox, JSONModel, SimpleForm, Label, Input, Button, Toolbar, ToolbarSpacer, Title, ComboBox, VBox, RadioButton, RadioButtonGroup, Table, Column, Text, FileUploader, Core) {
         "use strict";
 
         return Controller.extend("com.aispsuppform.aispsupplierform.controller.SupplierForm", {
             onInit: function () {
                 let oModel = this.getOwnerComponent().getModel("admin");
                 let mainModel = this.getOwnerComponent().getModel();
-                this.getView().setModel(mainModel, "regModel")
+                this.getView().setModel(mainModel, "regModel");
                 let formModel = this.getOwnerComponent().getModel("formData");
                 this.getView().setModel(formModel, "formDataModel");
                 this.getView().setModel(oModel);
@@ -39,12 +40,11 @@ sap.ui.define(
                     .getRouter()
                     .getRoute("SupplierForm")
                     .attachPatternMatched(this._onRouteMatchedwithoutid, this);
-
                 this.getView().byId("vendorWizard").getSteps()[0].setValidated(true);
             },
 
             _initializeDisclosureModel: function () {
-                var oDisclosureModel = new JSONModel({});
+                var oDisclosureModel = new sap.ui.model.json.JSONModel({});
                 this.getView().setModel(oDisclosureModel, "disclosureModel");
                 console.log("Disclosure model initialized:", oDisclosureModel.getData());
             },
@@ -52,30 +52,62 @@ sap.ui.define(
             _onRouteMatchedwithoutid: function (oEvent) {
                 var oArguments = oEvent.getParameter("arguments");
                 this._EMAIL = oArguments.Email;
+                let oRegModel = this.getView().getModel("regModel");
                 let oModel = this.getView().getModel();
-                console.log("Fetching FieldConfig from OData model:", oModel);
+                console.log("Fetching registration data for Email:", this._EMAIL);
 
-                oModel.read("/FieldConfig", {
-                    success: function (res) {
-                        console.log("FieldConfig response:", res);
-                        var fieldConfig = res.results || res.value || res;
-                        if (!fieldConfig || (Array.isArray(fieldConfig) && fieldConfig.length === 0)) {
-                            console.error("No field configuration data received");
-                            MessageBox.error("No field configuration data available.");
+                // First OData call to get registration data
+                oRegModel.read("/RequestInfoByRegId", {
+                    filters: [new sap.ui.model.Filter("REGISTERED_ID", sap.ui.model.FilterOperator.EQ, this._EMAIL)],
+                    success: function (regData) {
+                        console.log("Registration data response:", regData);
+                        var registration = regData.results && regData.results.length > 0 ? regData.results[0] : null;
+                        this.responseData = { ...registration }
+                        if (!registration) {
+                            console.error("No registration data found for email:", this._EMAIL);
+                            sap.m.MessageBox.error("No registration data found for the provided email.");
                             return;
                         }
 
-                        var formDataModel = this.buildFormDataBySectionCategory(fieldConfig);
-                        console.log("Form data model:", formDataModel);
+                        // Extract Company Code and Request Type
+                        var companyCode = registration.COMPANY_CODE || "1000";
+                        var requestType = registration.REQUEST_TYPE || "Create Normal";
+                        this.status = registration.STATUS;
+                        // Prepare filters for FieldConfig call
+                        var oFilters = [
+                            new sap.ui.model.Filter("COMPANY_CODE", sap.ui.model.FilterOperator.EQ, companyCode),
+                            new sap.ui.model.Filter("REQUEST_TYPE", sap.ui.model.FilterOperator.EQ, requestType)
+                        ];
 
-                        var oFormDataModel = new JSONModel(formDataModel);
-                        this.getView().setModel(oFormDataModel, "formDataModel");
-                        let data = oFormDataModel.getData();
-                        this.createDynamicForm(data);
+                        // Second OData call to get FieldConfig with filters
+                        oModel.read("/FieldConfig", {
+                            filters: oFilters,
+                            success: function (res) {
+                                console.log("FieldConfig response:", res);
+                                var fieldConfig = res.results || res.value || res;
+                                if (!fieldConfig || (Array.isArray(fieldConfig) && fieldConfig.length === 0)) {
+                                    console.error("No field configuration data received");
+                                    sap.m.MessageBox.error("No field configuration data available.");
+                                    return;
+                                }
+
+                                var formDataModel = this.buildFormDataBySectionCategory(fieldConfig);
+                                console.log("Form data model:", formDataModel);
+
+                                var oFormDataModel = new sap.ui.model.json.JSONModel(formDataModel);
+                                this.getView().setModel(oFormDataModel, "formDataModel");
+                                let data = oFormDataModel.getData();
+                                this.createDynamicForm(data);
+                            }.bind(this),
+                            error: function (err) {
+                                console.error("Error fetching FieldConfig:", err);
+                                sap.m.MessageBox.error("Failed to load field configuration: " + err.message);
+                            }.bind(this)
+                        });
                     }.bind(this),
                     error: function (err) {
-                        console.error("Error fetching FieldConfig:", err);
-                        MessageBox.error("Failed to load field configuration: " + err.message);
+                        console.error("Error fetching Registration data:", err);
+                        sap.m.MessageBox.error("Failed to load registration data: " + err.message);
                     }.bind(this)
                 });
             },
@@ -93,7 +125,8 @@ sap.ui.define(
 
                     if (section === "Attachments" && field.IS_VISIBLE) {
                         model.Attachments.push({
-                            description: field.FIELD_LABEL,
+                            title: field.FIELD_LABEL,
+                            description: "",
                             fileName: "",
                             uploaded: false,
                             fieldPath: field.FIELD_PATH,
@@ -139,94 +172,380 @@ sap.ui.define(
                     }
                 });
 
-                if (model["Supplier Information"]) {
-                    if (model["Supplier Information"]["Supplier Information"]) {
-                        model["Supplier Information"]["Supplier Information"]["VENDOR_NAME1"].value = "Tech Innovations Ltd.";
-                        model["Supplier Information"]["Supplier Information"]["WEBSITE"].value = "https://techinnovations.com";
-                        model["Supplier Information"]["Supplier Information"]["REGISTERED_ID"].value = this._EMAIL;
-                        model["Supplier Information"]["Supplier Information"]["Company Code"].value = "1000";
-                    }
-                    if (model["Supplier Information"]["Address"]) {
-                        model["Supplier Information"]["Address"][0]["HOUSE_NUM1"].value = "123 Tech Street";
-                        model["Supplier Information"]["Address"][0]["STREET1"].value = "Building A";
-                        model["Supplier Information"]["Address"][0]["STREET2"].value = "Tech Park";
-                        model["Supplier Information"]["Address"][0]["STREET3"].value = "Pune";
-                        model["Supplier Information"]["Address"][0]["STREET4"].value = "Pune";
-                        model["Supplier Information"]["Address"][0]["COUNTRY"].value = "India";
-                        model["Supplier Information"]["Address"][0]["STATE"].value = "Maharashtra";
-                        model["Supplier Information"]["Address"][0]["CITY"].value = "Pune";
-                        model["Supplier Information"]["Address"][0]["POSTAL_CODE"].value = "411001";
-                        model["Supplier Information"]["Address"][0]["EMAIL"].value = "pune@techinnovations.com";
-                        model["Supplier Information"]["Address"][0]["CONTACT_NO"].value = "9123456789";
-                    }
-                    if (model["Supplier Information"]["Primary Contact"]) {
-                        model["Supplier Information"]["Primary Contact"]["FIRST_NAME"].value = "Amit Sharma";
-                        model["Supplier Information"]["Primary Contact"]["CITY"].value = "Pune";
-                        model["Supplier Information"]["Primary Contact"]["STATE"].value = "Maharashtra";
-                        model["Supplier Information"]["Primary Contact"]["COUNTRY"].value = "India";
-                        model["Supplier Information"]["Primary Contact"]["POSTAL_CODE"].value = "411001";
-                        model["Supplier Information"]["Primary Contact"]["DESIGNATION"].value = "Procurement Manager";
-                        model["Supplier Information"]["Primary Contact"]["EMAIL"].value = "amit.sharma@techinnovations.com";
-                        model["Supplier Information"]["Primary Contact"]["CONTACT_NUMBER"].value = "+919876543210";
-                        model["Supplier Information"]["Primary Contact"]["MOBILE"].value = "+919123456789";
-                    }
-                }
+                if (this.status === 7) {
+                    const r = this.responseData;                         // shorthand
 
-                // Prefill Finance Information
-                if (model["Finance Information"]) {
-                    if (model["Finance Information"]["Primary Bank details"]) {
-                        model["Finance Information"]["Primary Bank details"][0]["SWIFT_CODE"].value = "SBIN0001234";
-                        model["Finance Information"]["Primary Bank details"][0]["BRANCH_NAME"].value = "Pune Main Branch";
-                        // model["Finance Information"]["Primary Bank details"][0]["IFSC"].value = "SBIN0001234";
-                        model["Finance Information"]["Primary Bank details"][0]["BANK_COUNTRY"].value = "India";
-                        model["Finance Information"]["Primary Bank details"][0]["BANK_NAME"].value = "State Bank of India";
-                        model["Finance Information"]["Primary Bank details"][0]["BENEFICIARY"].value = "Tech Innovations Ltd.";
-                        model["Finance Information"]["Primary Bank details"][0]["ACCOUNT_NO"].value = "123456789012";
-                        model["Finance Information"]["Primary Bank details"][0]["BENEFICIARY"].value = "Tech Innovations";
-                        model["Finance Information"]["Primary Bank details"][0]["IBAN_NUMBER"].value = "IN12SBIN123456789012";
-                        model["Finance Information"]["Primary Bank details"][0]["ROUTING_CODE"].value = "SBIN123";
-                        // model["Finance Information"]["Primary Bank details"][0]["OTHER_CODE_NAME"].value = "IFSC";
-                        // model["Finance Information"]["Primary Bank details"][0]["OTHER_CODE_VAL"].value = "SBIN0001234";
-                        model["Finance Information"]["Primary Bank details"][0]["BANK_CURRENCY"].value = "INR";
-                        model["Finance Information"]["TAX-VAT-GST"].GST_NO.value = "27AAACT1234P1ZP";
+                    /* === Supplier Information ================================= */
+                    const sInfo = model["Supplier Information"];
+                    if (sInfo) {
+                        /* top block ------------------------------------------------*/
+                        const sup = sInfo["Supplier Information"];
+                        if (sup) {
+                            sup["VENDOR_NAME1"].value = r.VENDOR_NAME1 || "";
+                            sup["WEBSITE"].value = r.WEBSITE || "";
+                            sup["REGISTERED_ID"].value = r.REGISTERED_ID || "";
+                        }
+                        /* address --------------------------------------------------*/
+                        const addressRows = sInfo["Address"] || [];
+                        const addressResults = r.TO_ADDRESS?.results || [];
+
+                        /* -- primary row (index 0) -- */
+                        if (addressRows[0] && addressResults[0]) {
+                            const src = addressResults[0];
+                            const trg = addressRows[0];
+
+                            trg.ADDRESS_TYPE = "Primary";
+                            trg["HOUSE_NUM1"].value = src.STREET ?? "";
+                            trg["STREET1"].value = src.STREET1 ?? "";
+                            trg["STREET2"].value = src.STREET2 ?? "";
+                            trg["STREET3"].value = src.STREET3 ?? "";
+                            trg["STREET4"].value = src.STREET4 ?? "";
+                            trg["COUNTRY"].value = src.COUNTRY ?? "";
+                            trg["STATE"].value = src.STATE ?? "";
+                            trg["CITY"].value = src.CITY ?? "";
+                            trg["POSTAL_CODE"].value = src.POSTAL_CODE ?? "";
+                            trg["EMAIL"].value = src.EMAIL ?? "";
+                            trg["CONTACT_NO"].value = src.CONTACT_NO ?? "";
+                        }
+
+                        /* -- optional “Other Office Address” row (index 1) -- */
+                        if (addressResults[1]) {
+                            if (!addressRows[1]) {
+                                // deep-clone the structure of row 0
+                                const copy = JSON.parse(JSON.stringify(addressRows[0]));
+                                // clear the values
+                                Object.keys(copy).forEach(k => { if (k !== "ADDRESS_TYPE") copy[k].value = ""; });
+                                copy.ADDRESS_TYPE = "Other Office Address";
+                                addressRows.push(copy);               // <-- NOW the array has two objects
+                            }
+
+                            const src = addressResults[1];
+                            const trg = addressRows[1];
+
+                            trg.ADDRESS_TYPE = "Other Office Address";
+                            trg["HOUSE_NUM1"] = trg["HOUSE_NUM1"] || { value: "" };
+                            trg["STREET1"] = trg["STREET1"] || { value: "" };
+                            trg["STREET2"] = trg["STREET2"] || { value: "" };
+                            trg["STREET3"] = trg["STREET3"] || { value: "" };
+                            trg["STREET4"] = trg["STREET4"] || { value: "" };
+                            trg["COUNTRY"] = trg["COUNTRY"] || { value: "" };
+                            trg["STATE"] = trg["STATE"] || { value: "" };
+                            trg["CITY"] = trg["CITY"] || { value: "" };
+                            trg["POSTAL_CODE"] = trg["POSTAL_CODE"] || { value: "" };
+                            trg["EMAIL"] = trg["EMAIL"] || { value: "" };
+                            trg["CONTACT_NO"] = trg["CONTACT_NO"] || { value: "" };
+
+                            trg["HOUSE_NUM1"].value = src.STREET ?? "";
+                            trg["STREET1"].value = src.STREET1 ?? "";
+                            trg["STREET2"].value = src.STREET2 ?? "";
+                            trg["STREET3"].value = src.STREET3 ?? "";
+                            trg["STREET4"].value = src.STREET4 ?? "";
+                            trg["COUNTRY"].value = src.COUNTRY ?? "";
+                            trg["STATE"].value = src.STATE ?? "";
+                            trg["CITY"].value = src.CITY ?? "";
+                            trg["POSTAL_CODE"].value = src.POSTAL_CODE ?? "";
+                            trg["EMAIL"].value = src.EMAIL ?? "";
+                            trg["CONTACT_NO"].value = src.CONTACT_NO ?? "";
+                        }
+
+
+
+                        /* primary contact ------------------------------------------*/
+                        const pCon = sInfo["Primary Contact"];
+                        if (pCon) {
+                            const c = r.TO_CONTACTS?.results?.[0] || {};
+                            pCon["FIRST_NAME"].value = `${c.FIRST_NAME || ""} ${c.LAST_NAME || ""}`.trim();
+                            pCon["CITY"].value = c.CITY || "";
+                            pCon["STATE"].value = c.STATE || "";
+                            pCon["COUNTRY"].value = c.COUNTRY || "";
+                            pCon["POSTAL_CODE"].value = c.POSTAL_CODE || "";
+                            pCon["DESIGNATION"].value = c.DESIGNATION || "";
+                            pCon["EMAIL"].value = c.EMAIL || "";
+                            pCon["CONTACT_NUMBER"].value = c.CONTACT_NO || "";
+                            pCon["MOBILE"].value = c.MOBILE_NO || "";
+                        }
                     }
 
-                }
 
-                // Prefill Operational Information
-                if (model["Operational Information"]) {
-                    if (model["Operational Information"]["Product-Service Description"]) {
-                        model["Operational Information"]["Product-Service Description"]["PRODUCT_NAME"].value = "Industrial Widgets";
-                        model["Operational Information"]["Product-Service Description"]["PRODUCT_DESCRIPTION"].value = "High-quality industrial widgets for manufacturing";
-                        model["Operational Information"]["Product-Service Description"]["PRODUCT_TYPE"].value = "Finished Goods";
-                        model["Operational Information"]["Product-Service Description"]["PRODUCT_CATEGORY"].value = "Mechanical Parts";
-                    }
-                    if (model["Operational Information"]["Operational Capacity"]) {
-                        model["Operational Information"]["Operational Capacity"]["ORDER_SIZE_MIN"].value = "500 Units";
-                        model["Operational Information"]["Operational Capacity"]["PRODUCTION_CAPACITY"].value = "10000 Units/Year";
-                        model["Operational Information"]["Operational Capacity"]["PRODUCTION_LOCATION"].value = "Pune Factory";
-                        model["Operational Information"]["Operational Capacity"]["ORDER_SIZE_MAX"].value = "5000 Units";
-                    }
-                }
+                    /* === Finance Information ================================= */
+                    const fin = model["Finance Information"];
+                    if (fin) {
+                        const bankRows = fin["Primary Bank details"] || [];      // form model
+                        const bankResults = r.TO_BANKS?.results || [];              // backend data
 
-                // Prefill Quality Certificates
-                if (model["Quality Certificates"]) {
-                    if (model["Quality Certificates"]["Standard Certifications"]) {
-                        Object.keys(model["Quality Certificates"]["Standard Certifications"]).forEach(key => {
-                            model["Quality Certificates"]["Standard Certifications"][key].value = "Amit Sharma";
-                            model["Quality Certificates"]["Standard Certifications"][key].isCertified = "Yes";
-                        });
-                    }
-                }
+                        /* ---- PRIMARY bank row (index 0) – your existing copy-code ---- */
+                        if (bankRows[0] && bankResults[0]) {
+                            const src = bankResults[0];
+                            const trg = bankRows[0];
 
-                // Prefill Submission
-                if (model["Submission"]) {
-                    if (model["Submission"]["Declaration"]) {
-                        model["Submission"]["Declaration"]["COMPLETED_BY"].value = "Amit Sharma";
-                        model["Submission"]["Declaration"]["DESIGNATION"].value = "Procurement Manager";
-                        model["Submission"]["Declaration"]["SUBMISSION_DATE"].value = "29-04-2025";
-                        model["Submission"]["Declaration"]["ACK_VALIDATION"].value = true;
+                            trg.BANK_TYPE = "Primary";
+                            trg["SWIFT_CODE"].value = src.SWIFT_CODE ?? "";
+                            trg["BRANCH_NAME"].value = src.BRANCH_NAME ?? "";
+                            trg["BANK_COUNTRY"].value = src.BANK_COUNTRY ?? "";
+                            trg["BANK_NAME"].value = src.BANK_NAME ?? "";
+                            trg["BENEFICIARY"].value = src.BENEFICIARY ?? "";
+                            trg["ACCOUNT_NO"].value = src.ACCOUNT_NO ?? "";
+                            trg["IBAN_NUMBER"].value = src.IBAN_NUMBER ?? "";
+                            trg["ROUTING_CODE"].value = src.ROUTING_CODE ?? "";
+                            trg["BANK_CURRENCY"].value = src.BANK_CURRENCY ?? "";
+                            fin["TAX-VAT-GST"].GST_NO.value = src.GST ?? "";
+                        }
+
+                        /* ---- OPTIONAL “Other Bank Details” row (index 1) ------------- */
+                        if (bankResults[1]) {
+
+                            /* 1️⃣  create a second row if missing, cloning the field structure */
+                            if (!bankRows[1]) {
+                                const copy = JSON.parse(JSON.stringify(bankRows[0]));   // deep clone
+                                Object.keys(copy).forEach(k => {                        // blank the values
+                                    if (k !== "BANK_TYPE") copy[k].value = "";
+                                });
+                                copy.BANK_TYPE = "Other Bank Details";
+                                bankRows.push(copy);                                    // → array now has 2 rows
+                            }
+
+                            /* 2️⃣  fill it with backend values */
+                            const src = bankResults[1];
+                            const trg = bankRows[1];
+
+                            trg["SWIFT_CODE"].value = src.SWIFT_CODE ?? "";
+                            trg["BRANCH_NAME"].value = src.BRANCH_NAME ?? "";
+                            trg["BANK_COUNTRY"].value = src.BANK_COUNTRY ?? "";
+                            trg["BANK_NAME"].value = src.BANK_NAME ?? "";
+                            trg["BENEFICIARY"].value = src.BENEFICIARY ?? "";
+                            trg["ACCOUNT_NO"].value = src.ACCOUNT_NO ?? "";
+                            trg["IBAN_NUMBER"].value = src.IBAN_NUMBER ?? "";
+                            trg["ROUTING_CODE"].value = src.ROUTING_CODE ?? "";
+                            trg["BANK_CURRENCY"].value = src.BANK_CURRENCY ?? "";
+                        }
                     }
+
+
+                    /* === Operational Information =============================== */
+                    const op = model["Operational Information"];
+                    if (op) {
+                        const prod = op["Product-Service Description"];
+                        if (prod) {
+                            const p = r.TO_REG_PRODUCT_SERVICE?.results?.[0] || {};
+                            prod["PRODUCT_NAME"].value = p.PROD_NAME || "";
+                            prod["PRODUCT_DESCRIPTION"].value = p.PROD_DESCRIPTION || "";
+                            prod["PRODUCT_TYPE"].value = p.PROD_TYPE || "";
+                            prod["PRODUCT_CATEGORY"].value = p.PROD_CATEGORY || "";
+                        }
+                        const cap = op["Operational Capacity"];
+                        if (cap) {
+                            const c = r.TO_REG_CAPACITY?.results?.[0] || {};
+                            cap["ORDER_SIZE_MIN"].value = c.MINIMUM_ORDER_SIZE || "";
+                            cap["PRODUCTION_CAPACITY"].value = c.TOTAL_PROD_CAPACITY || "";
+                            cap["PRODUCTION_LOCATION"].value = c.CITY || "";
+                            cap["ORDER_SIZE_MAX"].value = c.MAXMIMUM_ORDER_SIZE || "";
+                        }
+                    }
+
+                    var oDisclosureModelData = new JSONModel({});
+                    const disclosure = model["Disclosures"];
+                    const disclosureKeys = Object.keys(disclosure);
+                    const fieldMapping = {
+                        "Conflict of Interest": "INTEREST_CONFLICT",
+                        "Legal Case Disclosure": "ANY_LEGAL_CASES",
+                        "Anti-Corruption Regulation": "ABAC_REG",
+                        "Export Control": "CONTROL_REGULATION"
+                    };
+
+                    const valueMapping = {
+                        "YES": 0,
+                        "NO": 1,
+                        "NA": 2
+                    };
+
+                    disclosureKeys.forEach(function (fieldKey) {
+                        const field = disclosure[fieldKey]; // field is the object like {label, mandatory, visible, ...}
+
+                        // Check if the field object has the expected properties
+                        if (field && fieldKey) {
+                            // Generate the property name based on the fieldKey (label directly)
+                            let propertyName = "/" + fieldKey.toLowerCase().replace(/ /g, '').replace('&', '').replace('-', '');
+
+                            // Get the corresponding field name from the mapping
+                            const mappedField = fieldMapping[fieldKey];
+
+                            // Update disclosure model based on the response data
+                            if (r && r.TO_DISCLOSURE_FIELDS && r.TO_DISCLOSURE_FIELDS.results.length > 0) {
+                                const disclosureData = r.TO_DISCLOSURE_FIELDS.results[0]; // Get the first entry from the results array
+
+                                // Get the value for the field using the mapped field name
+                                let fieldValue = disclosureData[mappedField] || "NA"; // Default to "NA" if not available
+
+                                // Map "YES" to 0, "NO" to 1, "NA" to 2
+                                fieldValue = valueMapping[fieldValue]; // If value is not found in valueMapping, default to 2 (NA)
+
+                                // Set the property in the model
+                                oDisclosureModelData.setProperty(`/${propertyName}`, fieldValue);
+
+                                // Debugging: Log the field change
+                                console.log(`Set disclosure field ${fieldKey} (mapped to ${mappedField}):`, propertyName, "with value:", fieldValue);
+                            } else {
+                                console.error(`Disclosure data for ${mappedField} not found in response.`);
+                            }
+
+                        } else {
+                            console.error(`Missing or invalid data for field: ${fieldKey}. Full field data:`, field);
+                        }
+                    });
+
+                    this.getView().setModel(oDisclosureModelData, "existModel");
+
+                    if (model["Quality Certificates"]) {
+                        if (model["Quality Certificates"]["Standard Certifications"]) {
+                            // Ensure that results from r.TO_QA_CERTIFICATES are available
+                            if (r && r.TO_QA_CERTIFICATES && r.TO_QA_CERTIFICATES.results && r.TO_QA_CERTIFICATES.results.length > 0) {
+                                // Iterate through the results array and set values
+                                r.TO_QA_CERTIFICATES.results.forEach(cert => {
+                                    // Check if the certificate name exists in the model
+
+                                    const certName = `${cert.CERTI_NAME.replace(/ /g, '_')}_DONE_BY`;
+                                    // const formattedCertName = certName.replace(/ _DONE_BY$/, ''); // Remove " - Done By" if it exists
+                                    if (model["Quality Certificates"]["Standard Certifications"][certName]) {
+                                        // Set the values for DONE_BY and AVAILABLE
+                                        model["Quality Certificates"]["Standard Certifications"][certName].value = cert.DONE_BY || "N/A"; // Set DONE_BY, default to "N/A" if not found
+                                        model["Quality Certificates"]["Standard Certifications"][certName].isCertified = cert.AVAILABLE === "YES" ? "Yes" : "No"; // Set isCertified based on AVAILABLE
+                                        console.log(`Updated certification: ${certName}, DONE_BY: ${cert.DONE_BY}, AVAILABLE: ${cert.AVAILABLE}`);
+                                    } else {
+                                        console.warn(`No matching certification found in model for: ${cert.CERTI_NAME}`);
+                                    }
+                                });
+                            } else {
+                                console.error("No QA certificates found in response.");
+                            }
+                        }
+                    }
+
+                    if (model["Attachments"]) {
+                        if (r && r.TO_ATTACHMENTS && r.TO_ATTACHMENTS.results && r.TO_ATTACHMENTS.results.length > 0) {
+                            // Iterate through the response attachments and update model
+                            r.TO_ATTACHMENTS.results.forEach((attachment, index) => {
+                                // Find matching attachment in model based on fieldPath
+                                const attachmentData = model["Attachments"][index];
+
+                                if (attachmentData) {
+                                    // Match the data from r.TO_ATTACHMENTS to the model
+                                    attachmentData.fileName = attachment.IMAGE_FILE_NAME || ""; // Set the file name
+                                    attachmentData.imageUrl = attachment.IMAGEURL || ""; // Set the image URL
+                                    attachmentData.title = attachment.ATTACH_SHORT_DEC; // If imageUrl exists, mark as uploaded
+                                    attachmentData.description = attachment.DESCRIPTION
+                                    attachmentData.uploaded = true
+                                }
+
+                            });
+
+                            // Update the model with the new values for Attachments
+                            this.getView().getModel("formDataModel").setProperty("/Attachments", model["Attachments"]);
+
+                        } else {
+                            console.error("No attachments found in response.");
+                        }
+                    }
+
+
+
+                    /* === Submission ============================================ */
+                    const sub = model["Submission"]?.["Declaration"];
+                    if (sub) {
+                        sub["COMPLETED_BY"].value = r.COMPLETED_BY || "";
+                        sub["DESIGNATION"].value = r.DESIGNATION || "";
+                        sub["SUBMISSION_DATE"].value = r.SUBMISSION_DATE || "";
+                        sub["ACK_VALIDATION"].value = true;
+                    }
+                } else {
+                    if (model["Supplier Information"]) {
+                        if (model["Supplier Information"]["Supplier Information"]) {
+                            model["Supplier Information"]["Supplier Information"]["VENDOR_NAME1"].value = "Tech Innovations Ltd.";
+                            model["Supplier Information"]["Supplier Information"]["WEBSITE"].value = "https://techinnovations.com";
+                            model["Supplier Information"]["Supplier Information"]["REGISTERED_ID"].value = this._EMAIL;
+                        }
+                        if (model["Supplier Information"]["Address"]) {
+                            model["Supplier Information"]["Address"][0]["HOUSE_NUM1"].value = "123 Tech Street";
+                            model["Supplier Information"]["Address"][0]["STREET1"].value = "Building A";
+                            model["Supplier Information"]["Address"][0]["STREET2"].value = "Tech Park";
+                            model["Supplier Information"]["Address"][0]["STREET3"].value = "Pune";
+                            model["Supplier Information"]["Address"][0]["STREET4"].value = "Pune";
+                            model["Supplier Information"]["Address"][0]["COUNTRY"].value = "India";
+                            model["Supplier Information"]["Address"][0]["STATE"].value = "Maharashtra";
+                            model["Supplier Information"]["Address"][0]["CITY"].value = "Pune";
+                            model["Supplier Information"]["Address"][0]["POSTAL_CODE"].value = "411001";
+                            model["Supplier Information"]["Address"][0]["EMAIL"].value = "pune@techinnovations.com";
+                            model["Supplier Information"]["Address"][0]["CONTACT_NO"].value = "9123456789";
+                        }
+                        if (model["Supplier Information"]["Primary Contact"]) {
+                            model["Supplier Information"]["Primary Contact"]["FIRST_NAME"].value = "Amit Sharma";
+                            model["Supplier Information"]["Primary Contact"]["CITY"].value = "Pune";
+                            model["Supplier Information"]["Primary Contact"]["STATE"].value = "Maharashtra";
+                            model["Supplier Information"]["Primary Contact"]["COUNTRY"].value = "India";
+                            model["Supplier Information"]["Primary Contact"]["POSTAL_CODE"].value = "411001";
+                            model["Supplier Information"]["Primary Contact"]["DESIGNATION"].value = "Procurement Manager";
+                            model["Supplier Information"]["Primary Contact"]["EMAIL"].value = "amit.sharma@techinnovations.com";
+                            model["Supplier Information"]["Primary Contact"]["CONTACT_NUMBER"].value = "+919876543210";
+                            model["Supplier Information"]["Primary Contact"]["MOBILE"].value = "+919123456789";
+                        }
+                    }
+
+                    // Prefill Finance Information
+                    if (model["Finance Information"]) {
+                        if (model["Finance Information"]["Primary Bank details"]) {
+                            model["Finance Information"]["Primary Bank details"][0]["SWIFT_CODE"].value = "SBIN0001234";
+                            model["Finance Information"]["Primary Bank details"][0]["BRANCH_NAME"].value = "Pune Main Branch";
+                            // model["Finance Information"]["Primary Bank details"][0]["IFSC"].value = "SBIN0001234";
+                            model["Finance Information"]["Primary Bank details"][0]["BANK_COUNTRY"].value = "India";
+                            model["Finance Information"]["Primary Bank details"][0]["BANK_NAME"].value = "State Bank of India";
+                            model["Finance Information"]["Primary Bank details"][0]["BENEFICIARY"].value = "Tech Innovations Ltd.";
+                            model["Finance Information"]["Primary Bank details"][0]["ACCOUNT_NO"].value = "123456789012";
+                            model["Finance Information"]["Primary Bank details"][0]["BENEFICIARY"].value = "Tech Innovations";
+                            model["Finance Information"]["Primary Bank details"][0]["IBAN_NUMBER"].value = "IN12SBIN123456789012";
+                            model["Finance Information"]["Primary Bank details"][0]["ROUTING_CODE"].value = "SBIN123";
+                            // model["Finance Information"]["Primary Bank details"][0]["OTHER_CODE_NAME"].value = "IFSC";
+                            // model["Finance Information"]["Primary Bank details"][0]["OTHER_CODE_VAL"].value = "SBIN0001234";
+                            model["Finance Information"]["Primary Bank details"][0]["BANK_CURRENCY"].value = "INR";
+                            model["Finance Information"]["TAX-VAT-GST"].GST_NO.value = "27AAACT1234P1ZP";
+                        }
+
+                    }
+
+                    // Prefill Operational Information
+                    if (model["Operational Information"]) {
+                        if (model["Operational Information"]["Product-Service Description"]) {
+                            model["Operational Information"]["Product-Service Description"]["PRODUCT_NAME"].value = "Industrial Widgets";
+                            model["Operational Information"]["Product-Service Description"]["PRODUCT_DESCRIPTION"].value = "High-quality industrial widgets for manufacturing";
+                            model["Operational Information"]["Product-Service Description"]["PRODUCT_TYPE"].value = "Finished Goods";
+                            model["Operational Information"]["Product-Service Description"]["PRODUCT_CATEGORY"].value = "Mechanical Parts";
+                        }
+                        if (model["Operational Information"]["Operational Capacity"]) {
+                            model["Operational Information"]["Operational Capacity"]["ORDER_SIZE_MIN"].value = "500 Units";
+                            model["Operational Information"]["Operational Capacity"]["PRODUCTION_CAPACITY"].value = "10000 Units/Year";
+                            model["Operational Information"]["Operational Capacity"]["PRODUCTION_LOCATION"].value = "Pune Factory";
+                            model["Operational Information"]["Operational Capacity"]["ORDER_SIZE_MAX"].value = "5000 Units";
+                        }
+                    }
+
+                    // Prefill Quality Certificates
+                    if (model["Quality Certificates"]) {
+                        if (model["Quality Certificates"]["Standard Certifications"]) {
+                            Object.keys(model["Quality Certificates"]["Standard Certifications"]).forEach(key => {
+                                model["Quality Certificates"]["Standard Certifications"][key].value = "Amit Sharma";
+                                model["Quality Certificates"]["Standard Certifications"][key].isCertified = "Yes";
+                            });
+                        }
+                    }
+
+                    // Prefill Submission
+                    if (model["Submission"]) {
+                        if (model["Submission"]["Declaration"]) {
+                            model["Submission"]["Declaration"]["COMPLETED_BY"].value = "Amit Sharma";
+                            model["Submission"]["Declaration"]["DESIGNATION"].value = "Procurement Manager";
+                            model["Submission"]["Declaration"]["SUBMISSION_DATE"].value = "29-04-2025";
+                            model["Submission"]["Declaration"]["ACK_VALIDATION"].value = true;
+                        }
+                    }
+
                 }
 
                 return model;
@@ -599,7 +918,7 @@ sap.ui.define(
                 });
             },
 
-            createDisclosureForm: function (oDisclosureFields) {
+            createDisclosureForm: function (oDisclosureFields, type) {
                 let that = this;
                 if (!oDisclosureFields || typeof oDisclosureFields !== "object" || Object.keys(oDisclosureFields).length === 0) {
                     console.error("No fields found for Disclosure or invalid object. Check oDisclosureFields:", oDisclosureFields);
@@ -617,23 +936,46 @@ sap.ui.define(
                     width: "100%"
                 }).addStyleClass("disclosureContainer");
 
+                // Get existing model data (existModel) to copy the values
+                var existModel = this.getView().getModel("existModel");
+                var existModelData = existModel ? existModel.getData() : {};
 
+                // Mapping between label names and actual property names in existModel
+                var fieldMapping = {
+                    "Conflict of Interest": "conflictofinterest",
+                    "Legal Case Disclosure": "legalcasedisclosure",
+                    "Anti-Corruption & Anti Bribery Regulation": "anticorruptionregulation",
+                    "Indian Export Control": "exportcontrol"
+                };
 
-                // Initialize disclosure model with default values (2 = NA)
+                // Initialize disclosure model with default values (1)
                 var oModel = new sap.ui.model.json.JSONModel({});
                 var propertyMap = {}; // Track property names for debugging
+
                 Object.keys(oDisclosureFields).forEach(function (category) {
                     var categoryData = oDisclosureFields[category];
                     Object.keys(categoryData).forEach(function (fieldKey) {
                         var field = categoryData[fieldKey];
                         if (field.visible) {
-                            var propertyName = "/" + field.label.toLowerCase().replace(/ /g, '').replace('&', '').replace('-', ''); // Default to NA (2)
-                            oModel.setProperty(propertyName, 2); // Default to NA (2)
+                            var propertyName = "/" + field.label.toLowerCase().replace(/ /g, '').replace('&', '').replace('-', ''); // Default to NA (1)
+
+                            // Get the corresponding property name from the mapping
+                            var mappedProperty = fieldMapping[field.label];
+
+                            // Retrieve existing data from existModel, defaulting to 1 if not present
+                            var existingValue = existModelData[mappedProperty];
+                            var valueToSet = (existingValue !== undefined) ? existingValue : 1;
+
+                            // Set the value in the disclosure model
+                            oModel.setProperty(propertyName, valueToSet);
                             propertyMap[field.label] = propertyName; // Map label to propertyName
-                            console.log("Initialized property:", propertyName, "for label:", field.label, "with value:", 2); // Debug initialization
+
+                            console.log("Initialized property:", propertyName, "for label:", field.label, "with value:", valueToSet); // Debug initialization
                         }
                     });
                 });
+
+                // Set the model to the view
                 this.getView().setModel(oModel, "disclosureModel");
 
                 // Iterate over categories and create fields
@@ -671,7 +1013,6 @@ sap.ui.define(
                                     }
                                 },
                                 select: function (oEvent) {
-                                    debugger;
                                     var oDisclosureModel = that.getView().getModel("disclosureModel");
                                     if (oDisclosureModel) {
                                         var selectedIndex = oEvent.getParameter("selectedIndex");
@@ -682,6 +1023,7 @@ sap.ui.define(
                                     }
                                 }.bind(this)
                             });
+
                             oRadioButtonGroup.addButton(new sap.m.RadioButton({ text: "Yes" }));
                             oRadioButtonGroup.addButton(new sap.m.RadioButton({ text: "No" }));
                             oRadioButtonGroup.addButton(new sap.m.RadioButton({ text: "NA" }));
@@ -704,7 +1046,9 @@ sap.ui.define(
                 // Debugging: Log the VBox structure and initial model state
                 console.log("VBox Content:", oMainVBox.getItems());
                 console.log("Initial Disclosure Model:", oModel.getData());
+
             },
+
 
             createQualityCertificatesForm: function (qualityCertificatesData) {
                 if (!qualityCertificatesData || typeof qualityCertificatesData !== "object" || Object.keys(qualityCertificatesData).length === 0) {
@@ -784,7 +1128,13 @@ sap.ui.define(
                 console.log("Table Content:", oTable.getItems());
             },
 
-            createAttachmentsForm: function (oAttachmentFields) {
+            createAttachmentsForm: function (oAttachmentFields, bForceRecreate = false) {
+                // Check if the attachment section has already been created
+                if (this._bAttachmentSectionCreated && !bForceRecreate) {
+                    console.log("Attachment section already created, skipping re-render");
+                    return;
+                }
+
                 if (!oAttachmentFields || oAttachmentFields.length === 0) {
                     console.error("No fields found for Attachments");
                     return;
@@ -796,160 +1146,565 @@ sap.ui.define(
                     return;
                 }
 
-                oContainer.removeAllContent();
-                var oMainVBox = new sap.m.VBox().addStyleClass("subSectionSpacing");
-
-                // Use the root formDataModel
-                var oFormDataModel = this.getView().getModel("formDataModel");
-                if (!oFormDataModel.getProperty("/Attachments")) {
-                    oFormDataModel.setProperty("/Attachments", oAttachmentFields);
+                // Clear the container only if we are forcing a recreate
+                if (bForceRecreate || !this._bAttachmentSectionCreated) {
+                    oContainer.removeAllContent();
                 }
 
-                // Store oAttachmentFields as a controller property
-                this._attachmentFields = oAttachmentFields;
+                var oMainVBox = new sap.m.VBox().addStyleClass("subSectionSpacing");
+                this._oMainVBox = oMainVBox;
 
-                oAttachmentFields.forEach((oField, index) => {
-                    var oTable = new sap.m.Table({
-                        growing: true,
-                        columns: [
-                            new sap.m.Column({ header: new sap.m.Label({ text: "Description" }) }),
-                            new sap.m.Column({ header: new sap.m.Label({ text: "Upload" }) }),
-                            new sap.m.Column({ header: new sap.m.Label({ text: "File Name" }) }),
-                            new sap.m.Column({ header: new sap.m.Label({ text: "Actions" }) })
-                        ]
-                    });
+                var oFormDataModel = this.getView().getModel("formDataModel");
+                if (!oFormDataModel) {
+                    console.error("formDataModel not found in the view. Ensure it is set in onInit.");
+                    return;
+                }
 
-                    var oFileUploader = new sap.ui.unified.FileUploader({
-                        name: "myFileUpload",
-                        uploadUrl: "upload/",
-                        tooltip: "Upload your file to the local server",
-                        uploadComplete: this.handleUploadComplete.bind(this),
-                        change: this.handleValueChange.bind(this),
-                        typeMissmatch: this.handleTypeMissmatch.bind(this),
-                        style: "Emphasized",
-                        fileType: "txt,jpg,pdf,doc,docx,png",
-                        placeholder: "Choose a file for Upload...",
-                        visible: true
-                    });
+                // Log the initial oAttachmentFields
+                console.log("Initial oAttachmentFields:", oAttachmentFields);
 
-                    oFileUploader.addParameter(new sap.ui.unified.FileUploaderParameter({
-                        name: "Accept-CH",
-                        value: "Viewport-Width"
-                    }));
-                    oFileUploader.addParameter(new sap.ui.unified.FileUploaderParameter({
-                        name: "Accept-CH",
-                        value: "Width"
-                    }));
-                    oFileUploader.addParameter(new sap.ui.unified.FileUploaderParameter({
-                        name: "Accept-CH-Lifetime",
-                        value: "86400"
-                    }));
-
-                    var oItemTemplate = new sap.m.ColumnListItem({
-                        cells: [
-                            new sap.m.Input({
-                                value: "{formDataModel>description}"
-                            }),
-                            new sap.m.Button({
-                                text: "Upload",
-                                press: function (oEvent) {
-                                    var oButton = oEvent.getSource();
-                                    var oContext = oButton.getBindingContext("formDataModel");
-                                    if (oContext) {
-                                        oButton.addDependent(oFileUploader);
-                                        oFileUploader.setBindingContext(oContext, "formDataModel");
-
-                                        oContainer.addContent(oFileUploader);
-
-                                        setTimeout(() => {
-                                            var $fileInput = oFileUploader.$().find("input[type='file']");
-                                            if ($fileInput.length > 0) {
-                                                $fileInput.trigger("click");
-                                                if (!oFileUploader.getFocusDomRef()) {
-                                                    console.warn("FileUploader focus issue detected after delay");
-                                                }
-                                            } else {
-                                                console.error("File input not found in FileUploader");
-                                            }
-                                            oContainer.removeContent(oFileUploader);
-                                        }, 100);
-                                    } else {
-                                        console.error("No binding context found for Upload button");
-                                    }
-                                }
-                            }),
-                            new sap.m.Text({
-                                text: "{formDataModel>fileName}"
-                            }),
-                            new sap.m.HBox({
-                                visible: true,
-                                items: [
-                                    new sap.m.Button({
-                                        icon: "sap-icon://download",
-                                        type: "Transparent",
-                                        tooltip: "Download",
-                                        press: function (oEvent) {
-                                            var oContext = oEvent.getSource().getBindingContext("formDataModel");
-                                            var sFileName = oContext.getProperty("fileName");
-                                            sap.m.MessageToast.show("Download functionality for " + sFileName + " to be implemented");
-                                        }
-                                    }),
-                                    new sap.m.Button({
-                                        icon: "sap-icon://delete",
-                                        type: "Transparent",
-                                        tooltip: "Remove",
-                                        press: function (oEvent) {
-                                            var oContext = oEvent.getSource().getBindingContext("formDataModel");
-                                            var sPath = oContext.getPath();
-                                            oFormDataModel.setProperty(sPath + "/fileName", "");
-                                            oFormDataModel.setProperty(sPath + "/uploaded", false);
-                                            oFormDataModel.setProperty(sPath + "/imageUrl", "");
-                                        }
-                                    })
-                                ]
-                            })
-                        ]
-                    });
-
-                    // Bind the table to a single item (not a "files" array)
-                    oTable.bindItems({
-                        path: "formDataModel>/Attachments",
-                        template: oItemTemplate,
-                        filters: [
-                            new sap.ui.model.Filter({
-                                path: "description",
-                                operator: sap.ui.model.FilterOperator.EQ,
-                                value1: oField.description
-                            })
-                        ]
-                    });
-
-                    oMainVBox.addItem(new sap.m.VBox({
-                        items: [
-                            new sap.m.Title({
-                                text: oField.description,
-                                level: "H3"
-                            }),
-                            oTable
-                        ]
-                    }).addStyleClass("attachmentTableSection"));
+                // Transform oAttachmentFields to include title and empty description
+                var transformedFields = oAttachmentFields.map(field => {
+                    const updatedField = {
+                        description: field.description || "",
+                        title: field.title || "Untitled Section",
+                        fileName: field.fileName || "",
+                        uploaded: field.uploaded || false,
+                        fieldPath: field.fieldPath || (field.title || "DEFAULT").toUpperCase().replace(/\s+/g, '_'),
+                        fieldId: field.fieldId || "V1R1D" + Date.now(),
+                        imageUrl: field.imageUrl || ""
+                    };
+                    console.log("Transformed field:", updatedField);
+                    return updatedField;
                 });
 
-                oContainer.addContent(new sap.m.VBox({
-                    items: [
-                        oMainVBox
-                    ]
-                }));
+                // Set the transformed data into the model only if it hasn't been set yet
+                if (!oFormDataModel.getProperty("/Attachments") || bForceRecreate) {
+                    oFormDataModel.setProperty("/Attachments", transformedFields);
+                    oFormDataModel.refresh(true);
+                    console.log("Model after setting Attachments:", oFormDataModel.getProperty("/Attachments"));
+                }
 
-                var oCustomCSS = `
-                    .attachmentTableSection {
-                        margin-bottom: 2rem;
+                this._attachmentFields = transformedFields;
+
+                // Model for fragment dialog
+                var oDialogModel = new sap.ui.model.json.JSONModel({
+                    newDocumentName: "",
+                    showError: false
+                });
+                this.getView().setModel(oDialogModel, "dialogModel");
+
+                // Method to open the document name input dialog
+                this.openDocumentDialog = function () {
+                    sap.ui.getCore().loadLibrary("sap.m", { async: false });
+
+                    // Check if dialog exists and is valid, otherwise create a new one
+                    if (!this._oDialog || !(this._oDialog instanceof sap.m.Dialog) || this._oDialog.bIsDestroyed) {
+                        try {
+                            this._oDialog = sap.ui.xmlfragment(
+                                "com.aispsuppform.aispsupplierform.fragments.AddDocumentDialog",
+                                this
+                            );
+                            if (!(this._oDialog instanceof sap.m.Dialog)) {
+                                console.error("Fragment did not return a Dialog object:", this._oDialog);
+                                sap.m.MessageToast.show("Failed to load document dialog. Please check the fragment configuration.");
+                                return;
+                            }
+                            this.getView().addDependent(this._oDialog);
+                            this._oDialog.setModel(oDialogModel, "dialogModel");
+                            console.log("Dialog created successfully:", this._oDialog);
+                        } catch (e) {
+                            console.error("Error loading fragment:", e);
+                            sap.m.MessageToast.show("Error loading document dialog. Please contact support.");
+                            return;
+                        }
                     }
-                    .attachmentTableSection .sapMTitle {
-                        margin-bottom: 0.5rem;
+
+                    // Reset dialog model state
+                    oDialogModel.setProperty("/newDocumentName", "");
+                    oDialogModel.setProperty("/showError", false);
+
+                    // Open the dialog
+                    try {
+                        this._oDialog.open();
+                    } catch (e) {
+                        console.error("Error opening dialog:", e);
+                        sap.m.MessageToast.show("Error opening document dialog.");
                     }
-                `;
-                $('<style>').text(oCustomCSS).appendTo('head');
+                };
+
+                // Handle dialog submit
+                this.onSubmitDocumentName = function () {
+                    var sNewTitle = oDialogModel.getProperty("/newDocumentName").trim();
+                    if (!sNewTitle) {
+                        sap.m.MessageToast.show("Please enter a document name");
+                        return;
+                    }
+
+                    // Check for duplicate title
+                    var bTitleExists = oFormDataModel.getProperty("/Attachments").some(field =>
+                        field.title.toLowerCase() === sNewTitle.toLowerCase()
+                    );
+                    if (bTitleExists) {
+                        oDialogModel.setProperty("/showError", true);
+                        return;
+                    }
+
+                    // Close dialog
+                    this._oDialog.close();
+
+                    // Proceed with adding new document
+                    var newAttachment = {
+                        description: "",
+                        title: sNewTitle,
+                        fileName: "",
+                        uploaded: false,
+                        fieldPath: sNewTitle.toUpperCase().replace(/\s+/g, '_'),
+                        fieldId: "V1R1D" + Date.now(),
+                        imageUrl: ""
+                    };
+
+                    var oAttachments = oFormDataModel.getProperty("/Attachments");
+                    oAttachments.push(newAttachment);
+                    oFormDataModel.setProperty("/Attachments", oAttachments);
+                    oFormDataModel.refresh(true);
+                    console.log("Added new attachment:", newAttachment);
+
+                    // Check if a VBox for this title already exists
+                    var oExistingVBox = this._oMainVBox.getItems().find(item => {
+                        return item instanceof sap.m.VBox &&
+                            item.getItems()[0] instanceof sap.m.HBox &&
+                            item.getItems()[0].getItems()[0] instanceof sap.m.Title &&
+                            item.getItems()[0].getItems()[0].getText() === sNewTitle;
+                    });
+
+                    if (!oExistingVBox) {
+                        var oNewTable = new sap.m.Table({
+                            growing: true,
+                            columns: [
+                                new sap.m.Column({ header: new sap.m.Label({ text: "Description" }) }),
+                                new sap.m.Column({ header: new sap.m.Label({ text: "Upload" }) }),
+                                new sap.m.Column({ header: new sap.m.Label({ text: "File Name" }) }),
+                                new sap.m.Column({ header: new sap.m.Label({ text: "Actions" }) })
+                            ]
+                        });
+
+                        var oFileUploader = new sap.ui.unified.FileUploader({
+                            name: "myFileUpload",
+                            uploadUrl: "upload/",
+                            tooltip: "Upload your file to the local server",
+                            uploadComplete: this.handleUploadComplete.bind(this),
+                            change: this.handleValueChange.bind(this),
+                            typeMissmatch: this.handleTypeMissmatch.bind(this),
+                            style: "Emphasized",
+                            fileType: "txt,jpg,pdf,doc,docx,png",
+                            placeholder: "Choose a file for Upload...",
+                            visible: true
+                        });
+
+                        var oItemTemplate = new sap.m.ColumnListItem({
+                            cells: [
+                                new sap.m.Input({
+                                    value: "{formDataModel>description}",
+                                    change: this.onDescriptionChange.bind(this)
+                                }),
+                                new sap.m.Button({
+                                    text: "Upload",
+                                    press: function (oEvent) {
+                                        var oButton = oEvent.getSource();
+                                        var oContext = oButton.getBindingContext("formDataModel");
+                                        if (oContext) {
+                                            oButton.addDependent(oFileUploader);
+                                            oFileUploader.setBindingContext(oContext, "formDataModel");
+                                            oContainer.addContent(oFileUploader);
+                                            setTimeout(() => {
+                                                var $fileInput = oFileUploader.$().find("input[type='file']");
+                                                if ($fileInput.length > 0) {
+                                                    $fileInput.trigger("click");
+                                                    if (!oFileUploader.getFocusDomRef()) {
+                                                        console.warn("FileUploader focus issue detected after delay");
+                                                    }
+                                                } else {
+                                                    console.error("File input not found in FileUploader");
+                                                }
+                                                oContainer.removeContent(oFileUploader);
+                                            }, 100);
+                                        } else {
+                                            console.error("No binding context found for Upload button");
+                                        }
+                                    }
+                                }),
+                                new sap.m.Text({
+                                    text: "{formDataModel>fileName}"
+                                }),
+                                new sap.m.HBox({
+                                    visible: true,
+                                    items: [
+                                        new sap.m.Button({
+                                            icon: "sap-icon://download",
+                                            type: "Transparent",
+                                            tooltip: "Download",
+                                            press: function (oEvent) {
+                                                var oContext = oEvent.getSource().getBindingContext("formDataModel");
+                                                var sFileName = oContext.getProperty("fileName");
+                                                var sImageUrl = oContext.getProperty("imageUrl");
+                                                sap.m.MessageToast.show("Download functionality for " + sImageUrl + " to be implemented");
+                                            }
+                                        }),
+                                        new sap.m.Button({
+                                            icon: "sap-icon://delete",
+                                            type: "Transparent",
+                                            tooltip: "Remove",
+                                            press: function (oEvent) {
+                                                var oContext = oEvent.getSource().getBindingContext("formDataModel");
+                                                var sPath = oContext.getPath();
+                                                oFormDataModel.setProperty(sPath + "/fileName", "");
+                                                oFormDataModel.setProperty(sPath + "/uploaded", false);
+                                                oFormDataModel.setProperty(sPath + "/imageUrl", "");
+                                            }
+                                        })
+                                    ]
+                                })
+                            ]
+                        });
+
+                        oNewTable.bindItems({
+                            path: "formDataModel>/Attachments",
+                            template: oItemTemplate,
+                            filters: [
+                                new sap.ui.model.Filter({
+                                    path: "title",
+                                    operator: sap.ui.model.FilterOperator.EQ,
+                                    value1: sNewTitle
+                                })
+                            ]
+                        });
+
+                        // Create an HBox for the title and Remove button
+                        var oHeaderHBox = new sap.m.HBox({
+                            items: [
+                                new sap.m.Title({
+                                    text: sNewTitle,
+                                    level: "H3"
+                                }),
+                                new sap.m.Button({
+                                    icon: "sap-icon://decline",
+                                    type: "Transparent",
+                                    tooltip: "Remove Section",
+                                    press: this.onRemoveDocumentSection.bind(this, sNewTitle)
+                                })
+                            ],
+                            justifyContent: "SpaceBetween",
+                            alignItems: "Center"
+                        });
+
+                        var oNewVBox = new sap.m.VBox({
+                            items: [
+                                oHeaderHBox,
+                                oNewTable
+                            ]
+                        }).addStyleClass("attachmentTableSection");
+
+                        this._oMainVBox.addItem(oNewVBox);
+                        console.log(`Created new table for ${sNewTitle}`);
+
+                        var oNewTableBinding = oNewTable.getBinding("items");
+                        if (oNewTableBinding) {
+                            oNewTableBinding.refresh();
+                            console.log(`Refreshed binding for ${sNewTitle} table`);
+                        } else {
+                            console.warn(`Binding for ${sNewTitle} table not found, attempting delayed refresh`);
+                            setTimeout(() => {
+                                var delayedBinding = oNewTable.getBinding("items");
+                                if (delayedBinding) {
+                                    delayedBinding.refresh();
+                                    console.log(`Delayed refresh successful for ${sNewTitle} table`);
+                                } else {
+                                    console.error(`Delayed binding for ${sNewTitle} table still not found`);
+                                }
+                            }, 100);
+                        }
+                    } else {
+                        var oExistingTable = oExistingVBox.getItems()[1];
+                        if (oExistingTable) {
+                            var oExistingBinding = oExistingTable.getBinding("items");
+                            if (oExistingBinding) {
+                                oExistingBinding.refresh();
+                                console.log(`Refreshed existing table for ${sNewTitle}`);
+                            } else {
+                                console.warn(`Binding for existing ${sNewTitle} table not found, attempting delayed refresh`);
+                                setTimeout(() => {
+                                    var delayedBinding = oExistingTable.getBinding("items");
+                                    if (delayedBinding) {
+                                        delayedBinding.refresh();
+                                        console.log(`Delayed refresh successful for existing ${sNewTitle} table`);
+                                    } else {
+                                        console.error(`Delayed binding for existing ${sNewTitle} table still not found`);
+                                    }
+                                }, 100);
+                            }
+                        }
+                    }
+                };
+
+                // Handle section removal
+                this.onRemoveDocumentSection = function (sTitle) {
+                    // Confirm deletion
+                    sap.m.MessageBox.confirm(`Are you sure you want to remove the "${sTitle}" section?`, {
+                        title: "Confirm Deletion",
+                        onClose: function (oAction) {
+                            if (oAction === sap.m.MessageBox.Action.OK) {
+                                // Remove from model
+                                var oAttachments = oFormDataModel.getProperty("/Attachments");
+                                oAttachments = oAttachments.filter(field => field.title !== sTitle);
+                                oFormDataModel.setProperty("/Attachments", oAttachments);
+                                oFormDataModel.refresh(true);
+                                console.log(`Removed attachments with title: ${sTitle}`);
+
+                                // Remove the VBox from UI
+                                var oVBoxToRemove = this._oMainVBox.getItems().find(item => {
+                                    return item instanceof sap.m.VBox &&
+                                        item.getItems()[0] instanceof sap.m.HBox &&
+                                        item.getItems()[0].getItems()[0] instanceof sap.m.Title &&
+                                        item.getItems()[0].getItems()[0].getText() === sTitle;
+                                });
+                                if (oVBoxToRemove) {
+                                    this._oMainVBox.removeItem(oVBoxToRemove);
+                                    oVBoxToRemove.destroy();
+                                    console.log(`Removed VBox for ${sTitle} from UI`);
+                                } else {
+                                    console.warn(`VBox for ${sTitle} not found in UI`);
+                                }
+
+                                sap.m.MessageToast.show(`Section "${sTitle}" removed successfully`);
+                            }
+                        }.bind(this)
+                    });
+                };
+
+                // Handle dialog cancel
+                this.onCancelDocumentName = function () {
+                    this._oDialog.destroy();
+                };
+
+                // Create the "Add Other Document" button in the header
+                var oAddButton = new sap.m.Button({
+                    text: "Add Other Document",
+                    press: this.openDocumentDialog.bind(this)
+                });
+
+                // Create the header with the Add button
+                var oHeader = new sap.m.HBox({
+                    items: [
+                        new sap.m.Title({ text: "Attachments", level: "H2" }),
+                        oAddButton
+                    ],
+                    justifyContent: "SpaceBetween"
+                });
+
+                oMainVBox.addItem(oHeader);
+
+                // Store tables for delayed refresh
+                var aTables = [];
+
+                if (bForceRecreate || !this._bAttachmentSectionCreated) {
+                    transformedFields.forEach((oField, index) => {
+                        var oTable = new sap.m.Table({
+                            growing: true,
+                            columns: [
+                                new sap.m.Column({ header: new sap.m.Label({ text: "Description" }) }),
+                                new sap.m.Column({ header: new sap.m.Label({ text: "Upload" }) }),
+                                new sap.m.Column({ header: new sap.m.Label({ text: "File Name" }) }),
+                                new sap.m.Column({ header: new sap.m.Label({ text: "Actions" }) })
+                            ]
+                        });
+
+                        var oFileUploader = new sap.ui.unified.FileUploader({
+                            name: "myFileUpload",
+                            uploadUrl: "upload/",
+                            tooltip: "Upload your file to the local server",
+                            uploadComplete: this.handleUploadComplete.bind(this),
+                            change: this.handleValueChange.bind(this),
+                            typeMissmatch: this.handleTypeMissmatch.bind(this),
+                            style: "Emphasized",
+                            fileType: "txt,jpg,pdf,doc,docx,png",
+                            placeholder: "Choose a file for Upload...",
+                            visible: true
+                        });
+
+                        var oItemTemplate = new sap.m.ColumnListItem({
+                            cells: [
+                                new sap.m.Input({
+                                    value: "{formDataModel>description}",
+                                    change: this.onDescriptionChange.bind(this)
+                                }),
+                                new sap.m.Button({
+                                    text: "Upload",
+                                    press: function (oEvent) {
+                                        var oButton = oEvent.getSource();
+                                        var oContext = oButton.getBindingContext("formDataModel");
+                                        if (oContext) {
+                                            oButton.addDependent(oFileUploader);
+                                            oFileUploader.setBindingContext(oContext, "formDataModel");
+                                            oContainer.addContent(oFileUploader);
+                                            setTimeout(() => {
+                                                var $fileInput = oFileUploader.$().find("input[type='file']");
+                                                if ($fileInput.length > 0) {
+                                                    $fileInput.trigger("click");
+                                                    if (!oFileUploader.getFocusDomRef()) {
+                                                        console.warn("FileUploader focus issue detected after delay");
+                                                    }
+                                                } else {
+                                                    console.error("File input not found in FileUploader");
+                                                }
+                                                oContainer.removeContent(oFileUploader);
+                                            }, 100);
+                                        } else {
+                                            console.error("No binding context found for Upload button");
+                                        }
+                                    }
+                                }),
+                                new sap.m.Text({
+                                    text: "{formDataModel>fileName}"
+                                }),
+                                new sap.m.HBox({
+                                    visible: true,
+                                    items: [
+                                        new sap.m.Button({
+                                            icon: "sap-icon://download",
+                                            type: "Transparent",
+                                            tooltip: "Download",
+                                            press: function (oEvent) {
+                                                var oContext = oEvent.getSource().getBindingContext("formDataModel");
+                                                var sFileName = oContext.getProperty("fileName");
+                                                sap.m.MessageToast.show("Download functionality for " + sFileName + " to be implemented");
+                                            }
+                                        }),
+                                        new sap.m.Button({
+                                            icon: "sap-icon://delete",
+                                            type: "Transparent",
+                                            tooltip: "Remove",
+                                            press: function (oEvent) {
+                                                var oContext = oEvent.getSource().getBindingContext("formDataModel");
+                                                var sPath = oContext.getPath();
+                                                oFormDataModel.setProperty(sPath + "/fileName", "");
+                                                oFormDataModel.setProperty(sPath + "/uploaded", false);
+                                                oFormDataModel.setProperty(sPath + "/imageUrl", "");
+                                            }
+                                        })
+                                    ]
+                                })
+                            ]
+                        });
+
+                        console.log(`Binding table with title: ${oField.title}`);
+                        console.log("Model data before binding:", oFormDataModel.getProperty("/Attachments"));
+
+                        oTable.bindItems({
+                            path: "formDataModel>/Attachments",
+                            template: oItemTemplate,
+                            filters: [
+                                new sap.ui.model.Filter({
+                                    path: "title",
+                                    operator: sap.ui.model.FilterOperator.EQ,
+                                    value1: oField.title
+                                })
+                            ]
+                        });
+
+                        aTables.push({ table: oTable, title: oField.title });
+
+                        oMainVBox.addItem(new sap.m.VBox({
+                            items: [
+                                new sap.m.Title({
+                                    text: oField.title,
+                                    level: "H3"
+                                }),
+                                oTable
+                            ]
+                        }).addStyleClass("attachmentTableSection"));
+                    });
+
+                    // Perform delayed refresh for all initial tables
+                    setTimeout(() => {
+                        aTables.forEach(({ table, title }) => {
+                            var oBinding = table.getBinding("items");
+                            if (oBinding) {
+                                oBinding.refresh();
+                                console.log(`Delayed refresh successful for table with title: ${title}`);
+                                console.log(`Binding contexts for ${title}:`, oBinding.getContexts());
+                            } else {
+                                console.error(`Delayed binding for table with title ${title} still not found.`);
+                            }
+                        });
+                    }, 100);
+
+                    oContainer.addContent(new sap.m.VBox({
+                        items: [oMainVBox]
+                    }));
+
+                    // Load external CSS file dynamically
+                    var sCssPath = sap.ui.require.toUrl("com/aispsuppform/aispsupplierform/css/AttachmentsForm.css");
+                    if (!sap.ui.getCore().byId("customAttachmentsFormStyles")) {
+                        $('<link>')
+                            .attr({
+                                id: "customAttachmentsFormStyles",
+                                rel: "stylesheet",
+                                type: "text/css",
+                                href: sCssPath
+                            })
+                            .appendTo('head');
+                    }
+
+                    this._bAttachmentSectionCreated = true;
+                }
+
+                console.log("Final Attachments in model after setup:", oFormDataModel.getProperty("/Attachments"));
+            },
+
+            onDescriptionChange: function (oEvent) {
+                var oInput = oEvent.getSource();
+                var oContext = oInput.getBindingContext("formDataModel");
+                if (!oContext) {
+                    console.error("No binding context found for description input");
+                    return;
+                }
+
+                var sNewDescription = oEvent.getParameter("value");
+                var sPath = oContext.getPath();
+
+                // Update the description in the model
+                var oFormDataModel = this.getView().getModel("formDataModel");
+                oFormDataModel.setProperty(sPath + "/description", sNewDescription);
+                console.log(`Description changed to: ${sNewDescription} at path: ${sPath}`);
+
+                // Since description is now independent, we only need to refresh the table where this row belongs
+                if (!this._oMainVBox) {
+                    console.error("Main VBox not found in controller");
+                    return;
+                }
+
+                var sTitle = oContext.getProperty("title");
+                var oExistingVBox = this._oMainVBox.getItems().find(item => {
+                    return item instanceof sap.m.VBox &&
+                        item.getItems()[0] instanceof sap.m.Title &&
+                        item.getItems()[0].getText() === sTitle;
+                });
+
+                if (oExistingVBox) {
+                    var oTable = oExistingVBox.getItems()[1];
+                    var oBinding = oTable.getBinding("items");
+                    if (oBinding) {
+                        oBinding.refresh();
+                        console.log(`Refreshed table for title: ${sTitle}`);
+                    } else {
+                        console.error(`No binding found for table with title: ${sTitle}`);
+                    }
+                } else {
+                    console.error(`Table for title ${sTitle} not found`);
+                }
+
+                console.log("Current Attachments in model:", oFormDataModel.getProperty("/Attachments"));
             },
 
             handleUploadComplete: function (oEvent) {
@@ -1024,7 +1779,7 @@ sap.ui.define(
                 var oFormData = this.getView().getModel("formDataModel").getData();
                 var oDisclosureModel = this.getView().getModel("disclosureModel").getData();
                 var payload = {
-                    action: "CREATE",
+                    action: this.status === 7 ? "EDIT_RESUBMIT" : "CREATE",
                     stepNo: 1,
                     reqHeader: [{
                         REGISTERED_ID: oFormData["Supplier Information"]["Supplier Information"]["REGISTERED_ID"]?.value || "troyi@gmail.com",
@@ -1079,7 +1834,7 @@ sap.ui.define(
                         BANK_CURRENCY: bank.BANK_CURRENCY?.value || "INR",
                         GST: oFormData["Finance Information"]["TAX-VAT-GST"].GST_NO?.value || "29HYDUDDD8U8",
                         GSTYES_NO: oFormData["Finance Information"]["TAX-VAT-GST"]["TAX/VAT/GST"].value || "YES",
-    
+
                     })),
 
                     Operational_Prod_Desc: [{
@@ -1123,13 +1878,20 @@ sap.ui.define(
                                 DONE_BY: oFormData["Quality Certificates"]["Standard Certifications"][key].value || ""
                             };
                         }),
-                    Attachments: oFormData["Attachments"].map(attachment => ({
-                        REGESTERED_MAIL: oFormData["Supplier Information"]["Supplier Information"]["REGISTERED_ID"]?.value || "p5ak7@edny.net",
-                        DESCRIPTION: attachment.description,
-                        ATTACH_SHORT_DEC: "TEST",
-                        IMAGEURL: attachment.imageUrl ? attachment.imageUrl.split(",")[1] : "",
-                        IMAGE_FILE_NAME : attachment.description
-                    }))
+                    Attachments: oFormData["Attachments"].map(attachment => {
+                        const url = attachment.imageUrl || "";
+                        const isBase64 = url.startsWith("data:");
+
+                        return {
+                            REGESTERED_MAIL: oFormData["Supplier Information"]["Supplier Information"]["REGISTERED_ID"]?.value || "p5ak7@edny.net",
+                            DESCRIPTION: attachment.description,
+                            ATTACH_SHORT_DEC: attachment.title,
+                            IMAGEURL: isBase64
+                                ? url.split(",")[1] || url  // use base64 content or fallback
+                                : url,                      // use full URL for existing
+                            IMAGE_FILE_NAME: attachment.fileName
+                        };
+                    })
                 };
 
                 console.log("Final Payload:", payload);
@@ -1137,6 +1899,7 @@ sap.ui.define(
             },
 
             submitForm: function () {
+                this.getView().setBusy(true)
                 var oPayload = this.buildPayload();
                 debugger;
                 var oModel = this.getView().getModel("regModel"); // OData model ("admin")
@@ -1151,7 +1914,7 @@ sap.ui.define(
                 // Perform OData create call to "PostRegData" entity
                 oModel.create("/PostRegData", oPayload, {
                     success: function (oData, oResponse) {
-                        console.log("Form submitted successfully:", oData, oResponse);
+                        this.getView().setBusy(false)
                         MessageBox.success("Form submitted successfully!", {
                             onClose: function () {
                                 this.getOwnerComponent().getRouter().navTo("RouteInstructionView");
@@ -1160,6 +1923,7 @@ sap.ui.define(
                     }.bind(this),
                     error: function (oError) {
                         console.error("Error submitting form:", oError);
+                        this.getView().setBusy(false)
                         var sMessage = "Failed to submit the form.";
                         if (oError.responseText) {
                             try {
